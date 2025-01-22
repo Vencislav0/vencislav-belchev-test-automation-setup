@@ -1,8 +1,7 @@
-function geeseFinder(types){
+function geeseFinder(types) {
+  const acceptableTypes = ['African', 'Roman Tufted', 'Toulouse', 'Pilgrim', 'Steinbacher']
 
-    let acceptableTypes = ["African", "Roman Tufted", "Toulouse", "Pilgrim", "Steinbacher"];
+  const result = types.filter((el) => !acceptableTypes.includes(el))
 
-    const result = types.filter(el => !acceptableTypes.includes(el))
-
-    console.log(result)
+  console.log(result)
 }
