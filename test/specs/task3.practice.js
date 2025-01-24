@@ -30,10 +30,9 @@ describe('Practicing Element Selectors', () => {
   })
   it('Universal Unique XPath', async () => {
     await browser.url('https://the-internet.herokuapp.com/tables')
+ 
 
-    const DueIndex = (await $$('//table[1]//tr[1]//th[span[text()="Due"]]/preceding-sibling::th').length) + 1
-
-    const priceRowElement = await $(`//tr[td[text()="jsmith@gmail.com"]]//td[position()="${DueIndex}"]`)
+    const priceRowElement = await $(`//table[1]//tr[1][td[text()="jsmith@gmail.com"]]//td[count(//table[1]//tr[1]/th[span[text()="Due"]]/preceding-sibling::th) + 1]`)
 
     browser.waitUntil(async () => await priceRowElement.isDisplayed(), { timeout: 3000 })
     expect(await priceRowElement.isDisplayed()).toBe(true)
