@@ -12,6 +12,7 @@
     "lint-prettify": "eslint . --fix && prettier --write ."
   },
   "dependencies": {
+    "chai": "^4.4.1",
     "dotenv": "^16.4.1",
     "esm": "^3.2.25"
   },
