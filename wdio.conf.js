@@ -1,3 +1,5 @@
+const path = require('path')
+
 exports.config = {
   //
   // ====================
@@ -20,7 +22,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: ['./test/specs/task4-ui-tests.js'],
+  specs: ['./test/specs/task5-ui-tests.js'],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -47,9 +49,17 @@ exports.config = {
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
   // https://saucelabs.com/platform/platform-configurator
   //
+
   capabilities: [
     {
       browserName: 'chrome',
+      'goog:chromeOptions': {
+        prefs: {
+          'download.default_directory': path.resolve(__dirname, 'downloads'),
+          'download.prompt_for_download': false,
+          'plugins.always_open_pdf_externally': true,
+        },
+      },
     },
   ],
 
