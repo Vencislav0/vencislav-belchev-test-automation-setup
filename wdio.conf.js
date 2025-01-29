@@ -53,12 +53,14 @@ exports.config = {
   capabilities: [
     {
       browserName: 'chrome',
+      'wdio:enforceWebDriverClassic': true,
       'goog:chromeOptions': {
         prefs: {
           'download.default_directory': path.resolve(__dirname, 'downloads'),
           'download.prompt_for_download': false,
-          'plugins.always_open_pdf_externally': true,
+          'plugins.always_open_pdf_externally': true,          
         },
+
       },
     },
   ],

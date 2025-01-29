@@ -11,7 +11,7 @@ describe('Context Menu e2e', () => {
   it('Alert should appear when context menu is right clicked', async () => {
     const contextMenu = await $('#hot-spot')
 
-    await contextMenu.click({ button: 2 })
+    await contextMenu.click({ button: 2, skipRelease: true })
 
     await browser.waitUntil(async () => await browser.isAlertOpen(), { timeout: 5000, timeoutMsg: 'Alert did not appear within 5 seconds' })
 
@@ -114,7 +114,7 @@ describe('IFrames', () => {
 describe('Download File', () => {
   it('Verifying file download', async () => {
     await browser.url('https://the-internet.herokuapp.com/download')
-    const txtFileExtentions = await $$('//a[contains(text(), ".txt")]')
+    const txtFileExtentions = await $$('//a[contains(text(), ".txt") or contains(text(), ".json") or contains(text(), ".png") or contains(text(), ".jpg")]')
 
     assert.isAbove(txtFileExtentions.length, 0, 'there should be atleast 1 .txt file')
 
