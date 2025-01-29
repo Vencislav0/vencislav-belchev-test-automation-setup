@@ -22,7 +22,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: ['./test/specs/task5-ui-tests.js'],
+  specs: ['./test/specs/task6-ui-tests.js'],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -53,14 +53,13 @@ exports.config = {
   capabilities: [
     {
       browserName: 'chrome',
-      'wdio:enforceWebDriverClassic': true,
+      //'wdio:enforceWebDriverClassic': true,
       'goog:chromeOptions': {
         prefs: {
           'download.default_directory': path.resolve(__dirname, 'downloads'),
           'download.prompt_for_download': false,
-          'plugins.always_open_pdf_externally': true,          
+          'plugins.always_open_pdf_externally': true,
         },
-
       },
     },
   ],
