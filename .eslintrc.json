@@ -11,7 +11,7 @@
   "globals": {
     "browser": true
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:wdio/recommended"],
   "rules": {
     "no-unused-vars": "error",
     "semi-spacing": ["error", { "before": false, "after": true }],
