@@ -53,7 +53,7 @@ exports.config = {
   capabilities: [
     {
       browserName: 'chrome',
-      //'wdio:enforceWebDriverClassic': true,
+      'wdio:enforceWebDriverClassic': true,
       'goog:chromeOptions': {
         prefs: {
           'download.default_directory': path.resolve(__dirname, 'downloads'),

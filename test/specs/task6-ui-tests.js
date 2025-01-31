@@ -14,22 +14,16 @@ describe('Swag Labs Login e2e', () => {
     assert.isTrue(await LoginPage.loginButton.isEnabled(), 'login button should be enabled')
     assert.isTrue(await LoginPage.credentialsBlock.isDisplayed(), 'block containing the valid credentials should be displayed')
   })
-  it('Placeholder Text and Credentials Validation', async () => {
+  it.only('Placeholder Text and Credentials Validation', async () => {
     assert.equal(await browser.getUrl(), 'https://www.saucedemo.com/', 'should be on the login page')
 
-    const usernamesInnerHTML = await LoginPage.credentialsBlock.getProperty('innerHTML')
-    const validUsernamesTextArray = usernamesInnerHTML
-      .split(
-        '<div class="login_credentials_wrap-inner"><div id="login_credentials" class="login_credentials" data-test="login-credentials"><h4>Accepted usernames are:</h4>',
-      )
-      .map((text) => text.split('<br>'))
-      .flat()
+    const credentialsBlockText = await LoginPage.credentialsBlock.getText()
+    const validUsernamesTextArray = await credentialsBlockText
+      .split('\n')
+      .filter((text) => !text.includes('Accepted usernames are:') && !text.includes('Password for all users:'))
 
-    const passwordsInnerHTML = await $('//div[@data-test="login-password"]').getProperty('innerHTML')
-    const validPasswordsTextArray = passwordsInnerHTML
-      .split('<h4>Password for all users:</h4>')
-      .map((text) => text.trim())
-      .filter((text) => text.length > 0)
+    const passwordsText = await $('//div[@data-test="login-password"]').getText()
+    const validPasswordsTextArray = passwordsText.split('\n').filter((text) => !text.includes('Password for all users:'))
 
     const usernamePlaceholder = await LoginPage.usernameInput.getAttribute('placeholder')
     const passwordPlaceholder = await LoginPage.passwordInput.getAttribute('placeholder')
@@ -53,22 +47,18 @@ describe('Swag Labs Login e2e', () => {
   it('Should display error message and icons and be removed when error message is closed', async () => {
     await LoginPage.loginButton.click()
 
-    const errorIcons = await $$('svg')
-
-    const usernameErrorIcon = errorIcons[0]
-    const passwordErrorIcon = errorIcons[1]
-    const errorMessageExitButton = errorIcons[2]
+    const usernameErrorIcon = await $('//div[@class="form_group"]/input[@data-test="username"]/following-sibling::*[local-name()="svg"]')
+    const passwordErrorIcon = await $('//div[@class="form_group"]/input[@data-test="password"]/following-sibling::*[local-name()="svg"]')
+    const errorMessageExitButton = await $('//button[@data-test="error-button"]/*[local-name()="svg"]')
 
     assert.isTrue(await LoginPage.errorMessage.isDisplayed(), 'Error message should be displayed when invalid credentials are entered')
-    assert.isTrue(await usernameErrorIcon.isDisplayed(), 'Error icon on username should be displayed when invalid credentials are entered')    
+    assert.isTrue(await usernameErrorIcon.isDisplayed(), 'Error icon on username should be displayed when invalid credentials are entered')
     assert.isTrue(await passwordErrorIcon.isDisplayed(), 'Error icon on username should be displayed when invalid credentials are entered')
 
     await errorMessageExitButton.click()
 
     assert.isFalse(await LoginPage.errorMessage.isDisplayed(), 'Error message should disappear when error message is closed')
     assert.isFalse(await usernameErrorIcon.isDisplayed(), 'Error icon on username should disappear when error message is closed')
-    //Turns out this part fails when classic webdriver config is enabled. I would assume that the behaviour for isDisplayed() 
-    // method calls the locator again in the classic version which makes it fail since clicking the exit button on the error message removes them.
     assert.isFalse(await passwordErrorIcon.isDisplayed(), 'Error icon on username should disappear when error message is closed')
   })
   it('should login and redirect to product page when valid credentials are entered', async () => {
