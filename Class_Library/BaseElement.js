@@ -1,4 +1,4 @@
-const logger = require('../logger.js')
+const { logger } = require('../logger.js')
 
 class BaseElement {
   constructor(selector, name) {
@@ -44,6 +44,15 @@ class BaseElement {
     logger.debug(`${this.name} enabled: ${isEnabled}.`)
     logger.info('Checking availability operation complete')
     return isEnabled
+  }
+
+  async isDisplayed() {
+    logger.info(`Checking if ${this.name} is displayed`)
+    const element = await this._getElement()
+    const isDisplayed = await element.isDisplayed()
+    logger.debug(`${this.name} displayed: ${isDisplayed}.`)
+    logger.info('Checking visability operation complete')
+    return isDisplayed
   }
 
   async sendText(text) {
@@ -119,7 +128,7 @@ class BaseElement {
     logger.info(`Fetching value from ${property} CSS property on ${this.name} element`)
     const element = await this._getElement()
     const value = await element.getCSSProperty(property)
-    logger.debug(`Fetched ${property} CSS property from ${this.name} element, result object: ${value}`)
+    logger.debug(`Fetched ${property} CSS property from ${this.name} element, result object: ${JSON.stringify(value)}`)
     logger.info('Fetching CSS value complete')
     return value
   }

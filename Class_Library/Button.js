@@ -1,5 +1,5 @@
 const BaseElement = require('./BaseElement.js')
-const logger = require('../logger.js')
+const { logger } = require('../logger.js')
 
 class Button extends BaseElement {
   constructor(selector, name) {

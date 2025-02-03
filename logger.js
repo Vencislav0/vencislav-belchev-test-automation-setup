@@ -1,6 +1,7 @@
 const log4js = require('log4js')
 const fs = require('fs')
 const path = require('path')
+const { addAttachment } = require('@wdio/allure-reporter').default
 
 const logsDir = path.join(process.cwd(), 'logs')
 if (!fs.existsSync(logsDir)) {
@@ -25,4 +26,11 @@ log4js.configure({
 
 const logger = log4js.getLogger()
 
-module.exports = logger
+function attachLogsToAllure() {
+  const logContent = fs.readFileSync(path.join(logsDir, 'test.log'), 'utf8')
+  addAttachment('Test Execution Logs', logContent, 'text/plain')
+
+  fs.truncateSync(path.join(logsDir, 'test.log'), 0)
+}
+
+module.exports = { logger, attachLogsToAllure }
