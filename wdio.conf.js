@@ -134,7 +134,16 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ['spec'],
+  reporters: [
+    [
+      'allure',
+      {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+      },
+    ],
+  ],
 
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
@@ -225,8 +234,11 @@ exports.config = {
    * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
    * afterEach in Mocha)
    */
-  // afterHook: function (test, context, { error, result, duration, passed, retries }, hookName) {
-  // },
+  afterTest: async function (test, context, { error, result, duration, passed, retries }) {
+    if (error) {
+      await browser.takeScreenshot()
+    }
+  },
   /**
    * Function to be executed after a test (in Mocha/Jasmine only)
    * @param {object}  test             test object

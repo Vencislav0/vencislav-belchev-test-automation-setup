@@ -1,4 +1,5 @@
 const BaseElement = require('./BaseElement.js')
+const logger = require('../logger.js')
 
 class Link extends BaseElement {
   constructor(selector, name) {
@@ -6,10 +7,10 @@ class Link extends BaseElement {
   }
 
   async getLink() {
-    console.log(`Fetching href from ${this.name}`)
-    const element = await this._getElement()
-    const link = await element.getAttribute('href')
-    console.log(`${this.name} URL: ${link}`)
+    logger.info(`Fetching href from ${this.name}`)
+    const link = await this.getAttribute('href')
+    logger.debug(`${this.name} URL: ${link}`)
+    logger.info('Fetching href operation complete')
     return link
   }
 }

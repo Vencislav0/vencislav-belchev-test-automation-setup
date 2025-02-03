@@ -1,4 +1,5 @@
 const BaseElement = require('./BaseElement.js')
+const logger = require('../logger.js')
 
 class Label extends BaseElement {
   constructor(selector, name) {
@@ -6,9 +7,10 @@ class Label extends BaseElement {
   }
 
   async getText() {
-    console.log(`Fetching text from ${this.name}`)
+    logger.info(`Fetching text from ${this.name}`)
     const text = await super.getText()
-    console.log(`${this.name} text: ${text}`)
+    logger.debug(`${this.name} text: ${text}`)
+    logger.info('Fetching text operation complete')
     return text
   }
 }

@@ -1,4 +1,5 @@
 const BaseElement = require('./BaseElement.js')
+const logger = require('../logger.js')
 
 class Button extends BaseElement {
   constructor(selector, name) {
@@ -6,10 +7,11 @@ class Button extends BaseElement {
   }
 
   async isEnabled() {
-    console.log(`Checking if ${this.name} is enabled`)
+    logger.info(`Checking if ${this.name} is enabled`)
     const element = await this._getElement()
     const isEnabled = await element.isEnabled()
-    console.log(`${this.name} enabled: ${isEnabled}.`)
+    logger.debug(`${this.name} enabled: ${isEnabled}.`)
+    logger.info('Checking for availability complete')
     return isEnabled
   }
 }

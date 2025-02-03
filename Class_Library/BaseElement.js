@@ -1,3 +1,5 @@
+const logger = require('../logger.js')
+
 class BaseElement {
   constructor(selector, name) {
     this.selector = selector
@@ -5,91 +7,121 @@ class BaseElement {
   }
 
   async _getElement() {
-    console.log(`Getting element with selector ${this.selector}`)
+    logger.debug(`Getting element with selector ${this.selector}`)
     return $(this.selector)
   }
 
   async click() {
-    console.log(`Clicking ${this.name}`)
+    logger.info(`Clicking ${this.name}`)
     const selector = await this._getElement()
     await selector.click()
-    console.log(`${this.name} element clicked.`)
+    logger.debug(`${this.name} element clicked.`)
+    logger.info('Clicking operation complete')
   }
 
   async getText() {
-    console.log(`Fetching text of ${this.name}`)
+    logger.info(`Fetching text of ${this.name}`)
     const selector = await this._getElement()
     const text = await selector.getText()
-    console.log(`${this.name} element text: ${text}.`)
+    logger.debug(`${this.name} element text: ${text}.`)
+    logger.info('Fetching text operation complete')
     return text
   }
 
   async isVisible() {
-    console.log(`Checking if ${this.name} is visible`)
+    logger.info(`Checking if ${this.name} is visible`)
     const selector = await this._getElement()
     const isDisplayed = await selector.isDisplayed()
-    console.log(`${this.name} element displayed: ${isDisplayed}.`)
+    logger.debug(`${this.name} element displayed: ${isDisplayed}.`)
+    logger.info('Checking visability operation complete')
     return isDisplayed
   }
 
   async isEnabled() {
-    console.log(`Checking if ${this.name} is enabled`)
+    logger.info(`Checking if ${this.name} is enabled`)
     const element = await this._getElement()
     const isEnabled = await element.isEnabled()
-    console.log(`${this.name} enabled: ${isEnabled}.`)
+    logger.debug(`${this.name} enabled: ${isEnabled}.`)
+    logger.info('Checking availability operation complete')
     return isEnabled
   }
 
   async sendText(text) {
-    console.log(`Sending text to ${this.name}`)
+    logger.info(`Sending text to ${this.name}`)
     const element = await this._getElement()
     await element.setValue(text)
-    console.log(`sent text to ${this.name}: ${text}.`)
+    logger.debug(`sent text to ${this.name}: ${text}.`)
+    logger.info('Sending text operation complete.')
   }
 
   async rightClick() {
-    console.log(`Performing right click on ${this.name}`)
+    logger.info(`Performing right click on ${this.name}`)
     const element = await this._getElement()
     await element.click({ button: 2 })
-    console.log(`Performed right click on ${this.name}`)
+    logger.debug(`Performed right click on ${this.name}`)
+    logger.info('Right click operation complete')
   }
 
   async doubleClick() {
-    console.log(`Performing double click on ${this.name}`)
+    logger.info(`Performing double click on ${this.name}`)
     const element = await this._getElement()
     await element.doubleClick()
-    console.log(`Performed double click on ${this.name}`)
+    logger.debug(`Performed double click on ${this.name}`)
+    logger.info('Double click operation complete')
   }
 
   async holdClick(duration) {
-    console.log(`Performing Click and hold on ${this.name} for ${duration} miliseconds`)
+    logger.debug(`Performing Click and hold on ${this.name} for ${duration} miliseconds`)
 
     const element = await this._getElement()
     await browser.action('pointer').move({ origin: element }).down().pause(duration).up().perform()
 
-    console.log(`Released click on ${this.name} after ${duration} milliseconds`)
+    logger.debug(`Released click on ${this.name} after ${duration} milliseconds`)
+    logger.info('Click hold operation complete')
   }
 
   async waitForVisible(duration) {
-    console.log(`Waiting for ${this.name} to be visible with duration: ${duration}ms`)
+    logger.info(`Waiting for ${this.name} to be visible with duration: ${duration}ms`)
     const element = await this._getElement()
     const isVisible = await element.waitForDisplayed({ timeout: duration })
     if (isVisible) {
-      console.log(`Element ${this.name} is now visible`)
+      logger.debug(`Element ${this.name} is now visible`)
     } else {
-      console.error(`Element ${this.name} was not visible within ${duration}ms`)
+      logger.error(`Element ${this.name} was not visible within ${duration}ms`)
     }
+
+    logger.info('Waiting for visability complete.')
   }
 
   async waitForEnabled(duration) {
-    console.log(`Waiting for ${this.name} to be enabled with duration: ${duration}ms`)
+    logger.info(`Waiting for ${this.name} to be enabled with duration: ${duration}ms`)
     const element = await this._getElement()
     const isEnabled = await element.waitForEnabled({ timeout: duration })
     if (isEnabled) {
-      console.log(`Element ${this.name} is now enabled`)
+      logger.debug(`Element ${this.name} is now enabled`)
     } else {
-      console.error(`Element ${this.name} was not enabled within ${duration}ms`)
+      logger.error(`Element ${this.name} was not enabled within ${duration}ms`)
     }
+
+    logger.info('Waiting for availability complete')
+  }
+
+  async getAttribute(attribute) {
+    logger.info(`Fetching attribute ${attribute} value from ${this.name}`)
+    const element = await this._getElement()
+    const value = await element.getAttribute(attribute)
+    logger.debug(`Fetched value: ${value} from attribute ${attribute}`)
+    logger.info(`Fetching attribute from ${this.name} complete`)
+    return value
+  }
+
+  async getCSSValue(property) {
+    logger.info(`Fetching value from ${property} CSS property on ${this.name} element`)
+    const element = await this._getElement()
+    const value = await element.getCSSProperty(property)
+    logger.debug(`Fetched ${property} CSS property from ${this.name} element, result object: ${value}`)
+    logger.info('Fetching CSS value complete')
+    return value
   }
 }
 
