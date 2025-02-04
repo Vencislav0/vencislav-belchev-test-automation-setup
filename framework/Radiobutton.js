@@ -1,5 +1,5 @@
 const BaseElement = require('./BaseElement.js')
-const { logger } = require('../logger.js')
+const logger = require('../logger.js')
 
 class RadioButton extends BaseElement {
   constructor(selector, name) {
@@ -7,7 +7,7 @@ class RadioButton extends BaseElement {
   }
 
   async select() {
-    logger.info(`Selecting ${this.name}`)
+    logger.debug(`Selecting ${this.name}`)
     const element = await this._getElement()
     const isSelected = await element.isSelected()
     if (!isSelected) {
@@ -17,11 +17,11 @@ class RadioButton extends BaseElement {
       logger.debug(`${this.name} is already selected.`)
     }
 
-    logger.info('Select operation complete')
+    logger.debug('Select operation complete')
   }
 
   async unSelect() {
-    logger.info(`Unselecting ${this.name}`)
+    logger.debug(`Unselecting ${this.name}`)
     const element = await this._getElement()
     const isSelected = await element.isSelected()
     if (isSelected) {
@@ -31,7 +31,7 @@ class RadioButton extends BaseElement {
       logger.debug(`${this.name} is already not selected.`)
     }
 
-    logger.info('Unselecting operation complete')
+    logger.debug('Unselecting operation complete')
   }
 }
 

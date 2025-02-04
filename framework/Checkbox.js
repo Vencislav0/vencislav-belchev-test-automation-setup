@@ -1,5 +1,5 @@
 const BaseElement = require('./BaseElement.js')
-const { logger } = require('../logger.js')
+const logger = require('../logger.js')
 
 class CheckBox extends BaseElement {
   constructor(selector, name) {
@@ -7,7 +7,7 @@ class CheckBox extends BaseElement {
   }
 
   async check() {
-    logger.info(`Performing check on ${this.name}`)
+    logger.debug(`Performing check on ${this.name}`)
     const element = await this._getElement()
     const isChecked = await element.isSelected()
     if (!isChecked) {
@@ -16,7 +16,7 @@ class CheckBox extends BaseElement {
     } else {
       logger.debug(`${this.name} is already checked.`)
     }
-    logger.info('Checking operation complete')
+    logger.debug('Checking operation complete')
   }
 
   async unCheck() {
@@ -29,7 +29,7 @@ class CheckBox extends BaseElement {
     } else {
       logger.debug(`${this.name} is already unchecked.`)
     }
-    logger.info('Unchecking operation complete')
+    logger.debug('Unchecking operation complete')
   }
 }
 

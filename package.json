@@ -11,7 +11,9 @@
     "prepare": "husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks && git config --unset core.hooksPath",
     "lint-prettify": "eslint . --fix && prettier --write .",
     "allure-report": "allure generate --clean allure-results && allure open",
-    "wdio": "del /Q allure-results\\* && npx wdio"
+    "clear-report": "rimraf allure-results/*",
+    "test": "npx wdio"
+
   },
   "dependencies": {
     "chai": "^4.4.1",

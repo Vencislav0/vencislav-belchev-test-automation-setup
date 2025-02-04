@@ -1,5 +1,5 @@
 const BaseElement = require('./BaseElement.js')
-const { logger } = require('../logger.js')
+const logger = require('../logger.js')
 
 class BaseForm {
   constructor(selector, name) {
@@ -9,10 +9,10 @@ class BaseForm {
   }
 
   async isVisible() {
-    logger.info(`Checking if ${this.name} is visible`)
+    logger.debug(`Checking if ${this.name} is visible`)
     const isVisible = await this.formElement.isDisplayed()
     logger.debug(`Form element ${this.name} visability: ${isVisible}`)
-    logger.info('Checking visability complete')
+    logger.debug('Checking visability complete')
     return isVisible
   }
 }

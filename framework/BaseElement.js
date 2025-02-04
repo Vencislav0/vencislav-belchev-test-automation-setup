@@ -1,9 +1,10 @@
-const { logger } = require('../logger.js')
+const logger = require('../logger.js')
+
 
 class BaseElement {
   constructor(selector, name) {
     this.selector = selector
-    this.name = name
+    this.name = name   
   }
 
   async _getElement() {
@@ -12,71 +13,71 @@ class BaseElement {
   }
 
   async click() {
-    logger.info(`Clicking ${this.name}`)
+    logger.debug(`Clicking ${this.name}`)
     const selector = await this._getElement()
     await selector.click()
     logger.debug(`${this.name} element clicked.`)
-    logger.info('Clicking operation complete')
+    logger.debug('Clicking operation complete')
   }
 
   async getText() {
-    logger.info(`Fetching text of ${this.name}`)
+    logger.debug(`Fetching text of ${this.name}`)
     const selector = await this._getElement()
     const text = await selector.getText()
     logger.debug(`${this.name} element text: ${text}.`)
-    logger.info('Fetching text operation complete')
+    logger.debug('Fetching text operation complete')
     return text
   }
 
   async isVisible() {
-    logger.info(`Checking if ${this.name} is visible`)
+    logger.debug(`Checking if ${this.name} is visible`)
     const selector = await this._getElement()
     const isDisplayed = await selector.isDisplayed()
     logger.debug(`${this.name} element displayed: ${isDisplayed}.`)
-    logger.info('Checking visability operation complete')
+    logger.debug('Checking visability operation complete')
     return isDisplayed
   }
 
   async isEnabled() {
-    logger.info(`Checking if ${this.name} is enabled`)
+    logger.debug(`Checking if ${this.name} is enabled`)
     const element = await this._getElement()
     const isEnabled = await element.isEnabled()
     logger.debug(`${this.name} enabled: ${isEnabled}.`)
-    logger.info('Checking availability operation complete')
+    logger.debug('Checking availability operation complete')
     return isEnabled
   }
 
   async isDisplayed() {
-    logger.info(`Checking if ${this.name} is displayed`)
+    logger.debug(`Checking if ${this.name} is displayed`)
     const element = await this._getElement()
     const isDisplayed = await element.isDisplayed()
     logger.debug(`${this.name} displayed: ${isDisplayed}.`)
-    logger.info('Checking visability operation complete')
+    logger.debug('Checking visability operation complete')
     return isDisplayed
   }
 
   async sendText(text) {
-    logger.info(`Sending text to ${this.name}`)
+    logger.debug(`Sending text to ${this.name}`)
     const element = await this._getElement()
     await element.setValue(text)
     logger.debug(`sent text to ${this.name}: ${text}.`)
-    logger.info('Sending text operation complete.')
+    logger.debug('Sending text operation complete.')
   }
 
   async rightClick() {
-    logger.info(`Performing right click on ${this.name}`)
+    logger.debug(`Performing right click on ${this.name}`)
     const element = await this._getElement()
     await element.click({ button: 2 })
     logger.debug(`Performed right click on ${this.name}`)
-    logger.info('Right click operation complete')
+    logger.debug('Right click operation complete')
   }
 
   async doubleClick() {
-    logger.info(`Performing double click on ${this.name}`)
+    logger.debug(`Performing double click on ${this.name}`)
     const element = await this._getElement()
     await element.doubleClick()
     logger.debug(`Performed double click on ${this.name}`)
-    logger.info('Double click operation complete')
+    logger.debug('Double click operation complete')
   }
 
   async holdClick(duration) {
@@ -86,11 +87,11 @@ class BaseElement {
     await browser.action('pointer').move({ origin: element }).down().pause(duration).up().perform()
 
     logger.debug(`Released click on ${this.name} after ${duration} milliseconds`)
-    logger.info('Click hold operation complete')
+    logger.debug('Click hold operation complete')
   }
 
   async waitForVisible(duration) {
-    logger.info(`Waiting for ${this.name} to be visible with duration: ${duration}ms`)
+    logger.debug(`Waiting for ${this.name} to be visible with duration: ${duration}ms`)
     const element = await this._getElement()
     const isVisible = await element.waitForDisplayed({ timeout: duration })
     if (isVisible) {
@@ -99,11 +100,11 @@ class BaseElement {
       logger.error(`Element ${this.name} was not visible within ${duration}ms`)
     }
 
-    logger.info('Waiting for visability complete.')
+    logger.debug('Waiting for visability complete.')
   }
 
   async waitForEnabled(duration) {
-    logger.info(`Waiting for ${this.name} to be enabled with duration: ${duration}ms`)
+    logger.debug(`Waiting for ${this.name} to be enabled with duration: ${duration}ms`)
     const element = await this._getElement()
     const isEnabled = await element.waitForEnabled({ timeout: duration })
     if (isEnabled) {
@@ -112,24 +113,33 @@ class BaseElement {
       logger.error(`Element ${this.name} was not enabled within ${duration}ms`)
     }
 
-    logger.info('Waiting for availability complete')
+    logger.debug('Waiting for availability complete')
   }
 
   async getAttribute(attribute) {
-    logger.info(`Fetching attribute ${attribute} value from ${this.name}`)
+    logger.debug(`Fetching attribute ${attribute} value from ${this.name}`)
     const element = await this._getElement()
     const value = await element.getAttribute(attribute)
     logger.debug(`Fetched value: ${value} from attribute ${attribute}`)
-    logger.info(`Fetching attribute from ${this.name} complete`)
+    logger.debug(`Fetching attribute from ${this.name} complete`)
+    return value
+  }
+
+  async getValue(){
+    logger.debug(`Fetching value attribute from ${this.name}`)
+    const element = await this._getElement()
+    const value = await element.getValue()
+    logger.debug(`Fetched value: ${value} from ${this.name}`)
+    logger.debug(`Fetching value operation complete.`)
     return value
   }
 
   async getCSSValue(property) {
-    logger.info(`Fetching value from ${property} CSS property on ${this.name} element`)
+    logger.debug(`Fetching value from ${property} CSS property on ${this.name} element`)
     const element = await this._getElement()
     const value = await element.getCSSProperty(property)
     logger.debug(`Fetched ${property} CSS property from ${this.name} element, result object: ${JSON.stringify(value)}`)
-    logger.info('Fetching CSS value complete')
+    logger.debug('Fetching CSS value complete')
     return value
   }
 }

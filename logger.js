@@ -8,29 +8,74 @@ if (!fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir, { recursive: true })
 }
 
-log4js.configure({
-  appenders: {
-    file: { type: 'file', filename: path.join(logsDir, 'test.log') },
-    console: {
-      type: 'console',
-      layout: {
-        type: 'pattern',
-        pattern: '%[%d{yyyy-MM-dd hh:mm:ss} [%p] %m %]',
+class Logger {
+  constructor(){
+    this.consoleLogger = null
+    this.fileLogger = null
+    this.initLogger()   
+  }
+
+  initLogger(){
+    log4js.configure({
+      appenders: {
+        file: { type: 'file', filename: path.join(logsDir, 'test.log') },
+        console: {
+          type: 'console',
+          layout: {
+            type: 'pattern',
+            pattern: '%[%d{yyyy-MM-dd hh:mm:ss} [%p] %m %]',
+          },
+        },
       },
-    },
-  },
-  categories: {
-    default: { appenders: ['console', 'file'], level: 'trace' },
-  },
-})
+      categories: {
+        default: { appenders: ['console'], level: 'debug' },
+        fileLogger: { appenders: ['file'], level: 'trace'}   
+      },
+          
+    })
 
-const logger = log4js.getLogger()
+    this.consoleLogger = log4js.getLogger()
+    this.fileLogger = log4js.getLogger('fileLogger')
+  }
+  
+  logStep(stepName) {
+    this.consoleLogger.info(`Step: ${stepName}`)
+    this.fileLogger.info(`Step: ${stepName}`)
+  }
 
-function attachLogsToAllure() {
-  const logContent = fs.readFileSync(path.join(logsDir, 'test.log'), 'utf8')
-  addAttachment('Test Execution Logs', logContent, 'text/plain')
+  trace(message) {
+    this.fileLogger.trace(message)
+  }
 
-  fs.truncateSync(path.join(logsDir, 'test.log'), 0)
+  debug(message) {
+    this.consoleLogger.debug(message)
+    this.fileLogger.debug(message)
+  }
+
+  info(message) {
+    this.consoleLogger.info(message)
+    this.fileLogger.info(message)
+  }
+
+  warn(message) {
+    this.consoleLogger.warn(message)
+    this.fileLogger.warn(message)
+  }
+
+  error(message) {
+    this.consoleLogger.error(message)
+    this.fileLogger.error(message)
+  }
+
+  fatal(message) {
+    this.consoleLogger.fatal(message)
+    this.fileLogger.fatal(message)
+  }
+
+
+
 }
 
-module.exports = { logger, attachLogsToAllure }
+
+
+module.exports = new Logger()
