@@ -9,11 +9,17 @@
   },
   "scripts": {
     "prepare": "husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks && git config --unset core.hooksPath",
-    "lint-prettify": "eslint . --fix && prettier --write ."
+    "lint-prettify": "eslint . --fix && prettier --write .",
+    "allure-report": "allure generate --clean allure-results && allure open",
+    "clear-report": "rimraf allure-results/*",
+    "test": "npx wdio"
+
   },
   "dependencies": {
+    "chai": "^4.4.1",
     "dotenv": "^16.4.1",
-    "esm": "^3.2.25"
+    "esm": "^3.2.25",
+    "log4js": "^6.9.1"
   },
   "optionalDependencies": {
     "eslint": "^8.56.0",
@@ -28,5 +34,14 @@
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "shx": "^0.3.4"
+  },
+  "devDependencies": {
+    "@wdio/allure-reporter": "^9.6.3",
+    "@wdio/cli": "^9.6.1",
+    "@wdio/local-runner": "^9.6.1",
+    "@wdio/mocha-framework": "^9.5.0",
+    "@wdio/spec-reporter": "^9.5.0",
+    "chromedriver": "^132.0.1",
+    "eslint-plugin-wdio": "^9.6.0"
   }
 }
