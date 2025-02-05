@@ -59,13 +59,6 @@ class Logger {
     this.fileLogger = log4js.getLogger('fileLogger')
   }
 
-  attachLogsToAllure() {
-    if (!fs.existsSync(this.logFileName)) return
-
-    const content = fs.readFileSync(this.logFileName, 'utf8')
-    addAttachment(`Test Execution Logs`, content, 'text/plain')
-  }
-
   getLogFile() {
     return this.logFileName
   }

@@ -1,5 +1,6 @@
 const path = require('path')
 const logger = require('./logger.js')
+const attachLogsToAllure = require('./allure.js')
 
 exports.config = {
   //
@@ -224,7 +225,7 @@ exports.config = {
    * Function to be executed before a test (in Mocha/Jasmine) starts.
    */
   beforeTest: function (test, context) {
-    logger.setLogFile(`${test.parent}_${test.title}.log`)    
+    logger.setLogFile(`${test.parent}_${test.title}.log`)
   },
   /**
    * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
@@ -241,7 +242,7 @@ exports.config = {
       await browser.takeScreenshot()
     }
 
-    logger.attachLogsToAllure()
+    attachLogsToAllure(logger)
   },
   /**
    * Function to be executed after a test (in Mocha/Jasmine only)
