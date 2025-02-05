@@ -12,7 +12,8 @@
     "lint-prettify": "eslint . --fix && prettier --write .",
     "allure-report": "allure generate --clean allure-results && allure open",
     "clear-report": "rimraf allure-results/*",
-    "test": "npx wdio"
+    "test": "npx wdio",
+    "clear-report-run-test": "rimraf allure-results/* && npx wdio"
 
   },
   "dependencies": {

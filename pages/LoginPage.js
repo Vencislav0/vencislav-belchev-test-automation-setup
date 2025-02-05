@@ -1,5 +1,4 @@
 const BaseElement = require('../framework/BaseElement.js')
-const logger = require('../logger.js')
 const BaseForm = require('../framework/BaseForm.js')
 const TextBox = require('../framework/TextBox.js')
 const Button = require('../framework/Button.js')
@@ -31,13 +30,16 @@ class LoginPage extends BaseForm {
     await this.passwordField.sendText(password)
     await this.loginButton.click()
   }
-  async enterPassword(password){
+
+  async enterPassword(password) {
     await this.passwordField.sendText(password)
   }
-  async enterUsername(username){
+
+  async enterUsername(username) {
     await this.usernameField.sendText(username)
   }
-  async submit(){
+
+  async submit() {
     await this.loginButton.click()
   }
 
@@ -52,54 +54,68 @@ class LoginPage extends BaseForm {
   async isErrorIconPasswordDisplayed() {
     return this.passwordErrorIcon.isDisplayed()
   }
-  async getErrorMessageText(){
+
+  async getErrorMessageText() {
     return this.errorMessage.getText()
   }
-  async clickErrorMessageExitButton(){
+
+  async clickErrorMessageExitButton() {
     await this.errorMessageExitButton.click()
   }
-  
 
   async closeErrorMessage() {
     await this.errorMessageExitButton.click()
   }
-  async getUsernamePlaceholder(){
+
+  async getUsernamePlaceholder() {
     return this.usernameField.getAttribute('placeholder')
   }
-  async getPasswordPlaceholder(){
+
+  async getPasswordPlaceholder() {
     return this.passwordField.getAttribute('placeholder')
   }
-  async getLoginButtonValue(){
+
+  async getLoginButtonValue() {
     return this.loginButton.getValue()
   }
-  async getLoginButtonColor(){
+
+  async getLoginButtonColor() {
     return this.loginButton.getCSSValue('background-color')
   }
-  async getUsernameBlockText(){
+
+  async getUsernameBlockText() {
     return this.usernamesBlock.getText()
   }
-  async getPasswordBlockText(){
+
+  async getPasswordBlockText() {
     return this.passwordsBlock.getText()
   }
-  async isHeaderDisplayed(){
+
+  async isHeaderDisplayed() {
     return this.swagLabsHeader.isDisplayed()
   }
-  async getHeaderText(){
+
+  async getHeaderText() {
     return this.swagLabsHeader.getText()
   }
-  async isUsernameFieldDisplayed(){
+
+  async isUsernameFieldDisplayed() {
     return this.usernameField.isDisplayed()
   }
-  async isPasswordFieldDisplayed(){
+
+  async isPasswordFieldDisplayed() {
     return this.passwordField.isDisplayed()
   }
-  async isLoginButtonDisplayed(){
+
+  async isLoginButtonDisplayed() {
     return this.loginButton.isDisplayed()
   }
-  async isCredentialsBlockDisplayed(){
+
+  async isCredentialsBlockDisplayed() {
     return this.credentialsBlock.isDisplayed()
   }
-  async isLoginButtonEnabled(){
+
+  async isLoginButtonEnabled() {
     return this.loginButton.isEnabled()
   }
 }

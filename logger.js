@@ -1,7 +1,7 @@
 const log4js = require('log4js')
 const fs = require('fs')
 const path = require('path')
-const { addAttachment } = require('@wdio/allure-reporter').default
+const { addAttachment, step } = require('@wdio/allure-reporter').default
 
 const logsDir = path.join(process.cwd(), 'logs')
 if (!fs.existsSync(logsDir)) {
@@ -9,16 +9,38 @@ if (!fs.existsSync(logsDir)) {
 }
 
 class Logger {
-  constructor(){
-    this.consoleLogger = null
+  constructor() {
+    this.logger = null
     this.fileLogger = null
-    this.initLogger()   
+    this.logFileName = ''
+    this.initLogger(this.logFileName)
   }
 
-  initLogger(){
+  setLogFile(filePath) {
+    if (!filePath) {
+      throw new Error('Logger requires a test file path')
+    }
+
+    const testFileName = path.basename(filePath, path.extname(filePath))
+    this.logFileName = path.join(logsDir, `${testFileName}.log`)
+
+    if (fs.existsSync(this.logFileName)) {
+      fs.unlinkSync(this.logFileName)
+    }
+
+    fs.writeFileSync(this.logFileName, '', { flag: 'w' })
+
+    this.initLogger(this.logFileName)
+  }
+
+  initLogger(testFileName) {
+    if (!testFileName) {
+      this.logFileName = path.join(logsDir, 'default.log')
+    }
+
     log4js.configure({
       appenders: {
-        file: { type: 'file', filename: path.join(logsDir, 'test.log') },
+        file: { type: 'file', filename: this.logFileName },
         console: {
           type: 'console',
           layout: {
@@ -28,19 +50,30 @@ class Logger {
         },
       },
       categories: {
-        default: { appenders: ['console'], level: 'debug' },
-        fileLogger: { appenders: ['file'], level: 'trace'}   
+        default: { appenders: ['console', 'file'], level: 'debug' },
+        fileLogger: { appenders: ['file'], level: 'trace' },
       },
-          
     })
 
-    this.consoleLogger = log4js.getLogger()
+    this.logger = log4js.getLogger()
     this.fileLogger = log4js.getLogger('fileLogger')
   }
-  
+
+  attachLogsToAllure() {
+    if (!fs.existsSync(this.logFileName)) return
+
+    const content = fs.readFileSync(this.logFileName, 'utf8')
+    addAttachment(`Test Execution Logs`, content, 'text/plain')
+  }
+
+  getLogFile() {
+    return this.logFileName
+  }
+
   logStep(stepName) {
-    this.consoleLogger.info(`Step: ${stepName}`)
-    this.fileLogger.info(`Step: ${stepName}`)
+    step(stepName, () => {
+      this.logger.info(`Step: ${stepName}`)
+    })
   }
 
   trace(message) {
@@ -48,34 +81,24 @@ class Logger {
   }
 
   debug(message) {
-    this.consoleLogger.debug(message)
-    this.fileLogger.debug(message)
+    this.logger.debug(message)
   }
 
   info(message) {
-    this.consoleLogger.info(message)
-    this.fileLogger.info(message)
+    this.logger.info(message)
   }
 
   warn(message) {
-    this.consoleLogger.warn(message)
-    this.fileLogger.warn(message)
+    this.logger.warn(message)
   }
 
   error(message) {
-    this.consoleLogger.error(message)
-    this.fileLogger.error(message)
+    this.logger.error(message)
   }
 
   fatal(message) {
-    this.consoleLogger.fatal(message)
-    this.fileLogger.fatal(message)
+    this.logger.fatal(message)
   }
-
-
-
 }
-
-
 
 module.exports = new Logger()

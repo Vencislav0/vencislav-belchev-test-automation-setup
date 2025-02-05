@@ -1,10 +1,9 @@
 const logger = require('../logger.js')
 
-
 class BaseElement {
   constructor(selector, name) {
     this.selector = selector
-    this.name = name   
+    this.name = name
   }
 
   async _getElement() {
@@ -125,7 +124,7 @@ class BaseElement {
     return value
   }
 
-  async getValue(){
+  async getValue() {
     logger.debug(`Fetching value attribute from ${this.name}`)
     const element = await this._getElement()
     const value = await element.getValue()
