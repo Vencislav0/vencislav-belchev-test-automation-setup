@@ -1,5 +1,5 @@
 const BaseElement = require('./BaseElement.js')
-const logger = require('../logger.js')
+const logger = require('./logger.js')
 
 class TextBox extends BaseElement {
   constructor(selector, name) {
@@ -7,19 +7,15 @@ class TextBox extends BaseElement {
   }
 
   async sendText(text) {
-    logger.debug(`Sending text to ${this.name}`)
-    const element = await this._getElement()
-    await element.setValue(text)
-    logger.debug(`sent text to ${this.name}: ${text}.`)
-    logger.debug('Sending text operation complete')
+    logger.debug(`Sending text to ${this.name}`)   
+    await (await this._getElement()).setValue(text)
+    logger.debug(`sent text to ${this.name}: ${text}.`)    
   }
 
   async clear() {
-    logger.debug(`Clearing ${this.name}`)
-    const element = await this._getElement()
-    await element.clearValue()
-    logger.debug(`${this.name} cleared.`)
-    logger.debug('Clearing field operation complete')
+    logger.debug(`Clearing ${this.name}`)    
+    await (await this._getElement()).clearValue()
+    logger.debug(`${this.name} cleared.`)    
   }
 }
 

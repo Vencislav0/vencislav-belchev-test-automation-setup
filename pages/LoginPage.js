@@ -2,6 +2,7 @@ const BaseElement = require('../framework/BaseElement.js')
 const BaseForm = require('../framework/BaseForm.js')
 const TextBox = require('../framework/TextBox.js')
 const Button = require('../framework/Button.js')
+const Label = require('../framework/Label.js')
 
 class LoginPage extends BaseForm {
   constructor() {
@@ -9,7 +10,7 @@ class LoginPage extends BaseForm {
     this.usernameField = new TextBox('//input[@data-test="username"]', 'Username Field')
     this.passwordField = new TextBox('//input[@data-test="password"]', 'Password Field')
     this.loginButton = new Button('//input[@data-test="login-button"]', 'Login Button')
-    this.swagLabsHeader = new BaseElement('.login_logo', 'Swag Labs Header')
+    this.swagLabsHeader = new Label('.login_logo', 'Swag Labs Header')
     this.credentialsBlock = new BaseElement('//div[@data-test="login-credentials-container"]', 'Credentials Block')
     this.errorMessage = new BaseElement('//h3[@data-test="error"]', 'Error Message')
     this.errorMessageExitButton = new Button('//button[@data-test="error-button"]/*[local-name()="svg"]', 'Error Message Exit Button')

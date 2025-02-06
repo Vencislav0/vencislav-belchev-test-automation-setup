@@ -12,32 +12,14 @@ class Logger {
   constructor() {
     this.logger = null
     this.fileLogger = null
-    this.logFileName = ''
-    this.initLogger(this.logFileName)
+    this.logFileName = ''       
   }
+ 
 
-  setLogFile(filePath) {
-    if (!filePath) {
-      throw new Error('Logger requires a test file path')
-    }
+  initLogger(testFileName) {   
 
-    const testFileName = path.basename(filePath, path.extname(filePath))
-    this.logFileName = path.join(logsDir, `${testFileName}.log`)
-
-    if (fs.existsSync(this.logFileName)) {
-      fs.unlinkSync(this.logFileName)
-    }
-
-    fs.writeFileSync(this.logFileName, '', { flag: 'w' })
-
-    this.initLogger(this.logFileName)
-  }
-
-  initLogger(testFileName) {
-    if (!testFileName) {
-      this.logFileName = path.join(logsDir, 'default.log')
-    }
-
+    this.logFileName = testFileName || path.join(logsDir, 'default.log')
+    
     log4js.configure({
       appenders: {
         file: { type: 'file', filename: this.logFileName },
@@ -63,8 +45,8 @@ class Logger {
     return this.logFileName
   }
 
-  logStep(stepName) {
-    step(stepName, () => {
+  async logStep(stepName) {
+     step(stepName, () => {
       this.logger.info(`Step: ${stepName}`)
     })
   }
@@ -95,3 +77,4 @@ class Logger {
 }
 
 module.exports = new Logger()
+module.exports.logsDir = logsDir

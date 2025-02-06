@@ -16,8 +16,7 @@ class RadioButton extends BaseElement {
     } else {
       logger.debug(`${this.name} is already selected.`)
     }
-
-    logger.debug('Select operation complete')
+    
   }
 
   async unSelect() {
@@ -30,8 +29,7 @@ class RadioButton extends BaseElement {
     } else {
       logger.debug(`${this.name} is already not selected.`)
     }
-
-    logger.debug('Unselecting operation complete')
+    
   }
 }
 

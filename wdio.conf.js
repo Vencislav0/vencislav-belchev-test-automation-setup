@@ -1,6 +1,8 @@
 const path = require('path')
-const logger = require('./logger.js')
-const attachLogsToAllure = require('./allure.js')
+const logger = require('./framework/logger.js')
+const browserInstance = require('./framework/Browser.js')
+const {attachLogsToAllure, setLogFile, failingStep} = require('./framework/util-functions.js')
+
 
 exports.config = {
   //
@@ -30,6 +32,7 @@ exports.config = {
     // 'path/to/excluded/files'
   ],
   //
+  
   // ============
   // Capabilities
   // ============
@@ -206,8 +209,9 @@ exports.config = {
    * @param {Array.<String>} specs        List of spec file paths that are to be run
    * @param {object}         browser      instance of created browser/device session
    */
-  // before: function (capabilities, specs) {
-  // },
+   before:async function (capabilities, specs) {  
+    logger.initLogger(logger.getLogFile())
+   },
   /**
    * Runs before a WebdriverIO command gets executed.
    * @param {string} commandName hook command name
@@ -219,13 +223,15 @@ exports.config = {
    * Hook that gets executed before the suite starts
    * @param {object} suite suite details
    */
-  // beforeSuite: function (suite) {
-  // },
+   /*beforeSuite:async function (suite) {   
+    
+   },
   /**
    * Function to be executed before a test (in Mocha/Jasmine) starts.
    */
-  beforeTest: function (test, context) {
-    logger.setLogFile(`${test.parent}_${test.title}.log`)
+  beforeTest: function (test, context) {    
+    logger.logStep(`Running test case: ${test.title}. From suite: ${test.parent}`)  
+    setLogFile(`${test.parent}_${test.title}.log`, logger)    
   },
   /**
    * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
@@ -239,7 +245,12 @@ exports.config = {
    */
   afterTest: async function (test, context, { error, result, duration, passed, retries }) {
     if (error) {
-      await browser.takeScreenshot()
+      await browser.takeScreenshot()     
+      await failingStep('Test FAILED', error.message)      
+                
+    }
+    else{
+      logger.logStep('Test PASSED')
     }
 
     attachLogsToAllure(logger)

@@ -1,11 +1,12 @@
 const BaseElement = require('./BaseElement.js')
-const logger = require('../logger.js')
+const logger = require('./logger.js')
+const Label = require('./Label.js')
 
 class BaseForm {
   constructor(selector, name) {
     this.selector = selector
     this.name = name
-    this.formElement = new BaseElement(selector, name)
+    this.formElement = new Label(selector, name)
   }
 
   async isVisible() {

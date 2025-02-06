@@ -15,8 +15,7 @@ class CheckBox extends BaseElement {
       logger.debug(`${this.name} checked.`)
     } else {
       logger.debug(`${this.name} is already checked.`)
-    }
-    logger.debug('Checking operation complete')
+    }    
   }
 
   async unCheck() {
@@ -28,8 +27,7 @@ class CheckBox extends BaseElement {
       logger.debug(`${this.name} unchecked.`)
     } else {
       logger.debug(`${this.name} is already unchecked.`)
-    }
-    logger.debug('Unchecking operation complete')
+    }    
   }
 }
 

@@ -1,10 +1,16 @@
-const logger = require('../logger.js')
+const logger = require('./logger.js')
 
 class Browser {
   async openUrl(path) {
     logger.debug(`Opening URL: ${path}.`)
     await browser.url(path)
-    logger.debug(`Opened URL: ${path}.`)
+    if(browser.getUrl() != path){
+      logger.debug(`Failed to open URL: ${path}.`)
+    }
+    else{     
+      logger.debug(`Opened URL: ${path}.`)
+    }
+    
   }
 
   async getUrl() {
@@ -113,4 +119,4 @@ class Browser {
   }
 }
 
-module.exports = Browser
+module.exports = new Browser()

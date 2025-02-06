@@ -14,7 +14,6 @@
     "clear-report": "rimraf allure-results/*",
     "test": "npx wdio",
     "clear-report-run-test": "rimraf allure-results/* && npx wdio"
-
   },
   "dependencies": {
     "chai": "^4.4.1",
