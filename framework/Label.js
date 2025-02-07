@@ -9,7 +9,7 @@ class Label extends BaseElement {
   async getText() {
     logger.debug(`Fetching text from ${this.name}`)
     const text = await super.getText()
-    logger.debug(`${this.name} text: ${text}`)   
+    logger.debug(`${this.name} text: ${text}`)
     return text
   }
 }

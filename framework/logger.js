@@ -12,14 +12,12 @@ class Logger {
   constructor() {
     this.logger = null
     this.fileLogger = null
-    this.logFileName = ''       
+    this.logFileName = ''
   }
- 
 
-  initLogger(testFileName) {   
-
+  initLogger(testFileName) {
     this.logFileName = testFileName || path.join(logsDir, 'default.log')
-    
+
     log4js.configure({
       appenders: {
         file: { type: 'file', filename: this.logFileName },
@@ -46,7 +44,7 @@ class Logger {
   }
 
   async logStep(stepName) {
-     step(stepName, () => {
+    step(stepName, () => {
       this.logger.info(`Step: ${stepName}`)
     })
   }

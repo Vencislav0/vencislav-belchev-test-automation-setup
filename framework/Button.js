@@ -7,9 +7,9 @@ class Button extends BaseElement {
   }
 
   async isEnabled() {
-    logger.debug(`Checking if ${this.name} is enabled`)    
+    logger.debug(`Checking if ${this.name} is enabled`)
     const isEnabled = await (await this._getElement()).isEnabled()
-    logger.debug(`${this.name} enabled: ${isEnabled}.`)    
+    logger.debug(`${this.name} enabled: ${isEnabled}.`)
     return isEnabled
   }
 }

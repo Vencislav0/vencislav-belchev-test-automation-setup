@@ -3,17 +3,14 @@ const browser = require('../../../framework/Browser.js')
 const logger = require('../../../framework/logger.js')
 const LoginPage = require('../../../pages/LoginPage.js')
 
-
-describe('Swag Labs Login e2e', () => {  
+describe('Swag Labs Login e2e', () => {
   const loginPage = new LoginPage()
-  
 
   it('Placeholder Text and Credentials Validation', async () => {
     await browser.openUrl('https://www.saucedemo.com/')
-    
+
     await logger.logStep('Verifying url is correct')
     assert.equal(await browser.getUrl(), 'https://www.saucedemo.com/', 'should be on the login page')
-    
 
     await logger.logStep('Getting usernames from credentials block')
     const credentialsBlockText = await loginPage.getUsernameBlockText()
@@ -42,10 +39,8 @@ describe('Swag Labs Login e2e', () => {
     assert.deepInclude(validUsernamesTextArray, 'locked_out_user', 'locked_out_user should be a part of the username pool')
     assert.deepInclude(validUsernamesTextArray, 'problem_user', 'problem_user should be a part of the username pool')
     assert.deepInclude(validUsernamesTextArray, 'performance_glitch_user', 'performance_glitch_user should be a part of the username pool')
-    assert.deepInclude(validUsernamesTextArray, 'visual_user', 'visual_user should be a part of the username pool')      
-    assert.deepInclude(validPasswordsTextArray, 'secret_sauce', 'secret_sauce should be a part of the password pool') 
+    assert.deepInclude(validUsernamesTextArray, 'visual_user', 'visual_user should be a part of the username pool')
+    assert.deepInclude(validPasswordsTextArray, 'secret_sauce', 'secret_sauce should be a part of the password pool')
     assert.lengthOf(validPasswordsTextArray, 1, 'Password pool should contain only "secret_sauce" password for all accounts')
-
-    
   })
 })

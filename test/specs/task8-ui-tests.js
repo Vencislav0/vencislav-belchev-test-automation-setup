@@ -4,7 +4,7 @@ const { assert } = require('chai')
 const browser = require('../../framework/Browser.js')
 const logger = require('../../framework/logger.js')
 
-describe('Swag Labs Login e2e', () => { 
+describe('Swag Labs Login e2e', () => {
   const loginPage = new LoginPage()
   const inventoryPage = new InventoryPage()
   beforeEach(async () => {
@@ -12,12 +12,12 @@ describe('Swag Labs Login e2e', () => {
   })
 
   it('Should display all required page elements', async () => {
-    await logger.logStep('Verifying URL is correct') 
+    await logger.logStep('Verifying URL is correct')
     assert.equal(await browser.getUrl(), 'https://www.saucedemo.com/', 'should be on the login page')
-    
+
     await logger.logStep('Verifying login form is visible')
-    assert.isTrue(await loginPage.isVisible(), "Login form should be visible")
-    
+    assert.isTrue(await loginPage.isVisible(), 'Login form should be visible')
+
     await logger.logStep('Verifying Swag Labs header is displayed')
     assert.isTrue(await loginPage.isHeaderDisplayed(), 'Swag Labs header should be displayed')
 
@@ -26,7 +26,7 @@ describe('Swag Labs Login e2e', () => {
 
     await logger.logStep('Verifying that the username field is displayed')
     assert.isTrue(await loginPage.isUsernameFieldDisplayed(), 'username input field should be displayed')
-    
+
     await logger.logStep('Verifying that the password field is displayed')
     assert.isTrue(await loginPage.isPasswordFieldDisplayed(), 'password input field should be displayed')
 
@@ -35,16 +35,15 @@ describe('Swag Labs Login e2e', () => {
 
     await logger.logStep('Verifying that the login button is enabled')
     assert.isTrue(await loginPage.isLoginButtonEnabled(), 'login button should be enabled')
-    
+
     await logger.logStep('Verifying that the Credentials block is displayed')
     assert.isTrue(await loginPage.isCredentialsBlockDisplayed(), 'block containing the valid credentials should be displayed')
-    
+
     await logger.logStep('Checking all elements complete')
   })
   it('Placeholder Text and Credentials Validation', async () => {
     await logger.logStep('Verifying url is correct')
     assert.equal(await browser.getUrl(), 'https://www.saucedemo.com/', 'should be on the login page')
-    
 
     await logger.logStep('Getting usernames from credentials block')
     const credentialsBlockText = await loginPage.getUsernameBlockText()
@@ -73,11 +72,9 @@ describe('Swag Labs Login e2e', () => {
     assert.deepInclude(validUsernamesTextArray, 'locked_out_user', 'locked_out_user should be a part of the username pool')
     assert.deepInclude(validUsernamesTextArray, 'problem_user', 'problem_user should be a part of the username pool')
     assert.deepInclude(validUsernamesTextArray, 'performance_glitch_user', 'performance_glitch_user should be a part of the username pool')
-    assert.deepInclude(validUsernamesTextArray, 'visual_user', 'visual_user should be a part of the username pool')      
+    assert.deepInclude(validUsernamesTextArray, 'visual_user', 'visual_user should be a part of the username pool')
     assert.deepInclude(validPasswordsTextArray, 'secret_sauce', 'secret_sauce should be a part of the password pool')
     assert.lengthOf(validPasswordsTextArray, 1, 'Password pool should contain only "secret_sauce" password for all accounts')
-
-    
   })
   it('Should display error message and icons and be removed when error message is closed', async () => {
     await logger.logStep('Submiting empty login form')
@@ -95,8 +92,6 @@ describe('Swag Labs Login e2e', () => {
     assert.isFalse(await loginPage.isErrorIconUsernameDisplayed(), 'Username error icon should not be be displayed after error message is closed')
     assert.isFalse(await loginPage.isErrorIconPasswordDisplayed(), 'Password error icon should not be displayed after error message is closed')
     assert.isFalse(await loginPage.isErrorMessageDisplayed(), 'Erroe message should not be displayed after error message is closed')
-
-    
   })
   it('Should not provide access to the inventory page without logging in first(Broken Access Control Validation)', async () => {
     await logger.logStep('Opening inventory page without login')

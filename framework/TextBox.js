@@ -7,15 +7,15 @@ class TextBox extends BaseElement {
   }
 
   async sendText(text) {
-    logger.debug(`Sending text to ${this.name}`)   
+    logger.debug(`Sending text to ${this.name}`)
     await (await this._getElement()).setValue(text)
-    logger.debug(`sent text to ${this.name}: ${text}.`)    
+    logger.debug(`sent text to ${this.name}: ${text}.`)
   }
 
   async clear() {
-    logger.debug(`Clearing ${this.name}`)    
+    logger.debug(`Clearing ${this.name}`)
     await (await this._getElement()).clearValue()
-    logger.debug(`${this.name} cleared.`)    
+    logger.debug(`${this.name} cleared.`)
   }
 }
 

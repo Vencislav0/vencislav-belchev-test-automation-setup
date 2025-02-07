@@ -9,7 +9,7 @@ class Link extends BaseElement {
   async getLink() {
     logger.debug(`Fetching href from ${this.name}`)
     const link = await this.getAttribute('href')
-    logger.debug(`${this.name} URL: ${link}`)    
+    logger.debug(`${this.name} URL: ${link}`)
     return link
   }
 }
