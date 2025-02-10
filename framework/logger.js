@@ -1,7 +1,7 @@
 const log4js = require('log4js')
 const fs = require('fs')
 const path = require('path')
-const { addAttachment, step } = require('@wdio/allure-reporter').default
+const { step } = require('@wdio/allure-reporter').default
 
 const logsDir = path.join(process.cwd(), 'logs')
 if (!fs.existsSync(logsDir)) {

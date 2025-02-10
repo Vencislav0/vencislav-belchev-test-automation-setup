@@ -7,7 +7,7 @@ describe('Swag Labs Login e2e', () => {
   const loginPage = new LoginPage()
 
   it('Should display correct error message when invalid credentials are submited', async () => {
-    await browser.openUrl('https://www.saucedemo.com')
+    await browser.openUrl('https://www.saucedemo.com/')
 
     await logger.logStep('Attempt Login with invalid credentials')
     await loginPage.login('test', 'test')

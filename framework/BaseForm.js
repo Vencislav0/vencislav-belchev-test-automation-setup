@@ -1,4 +1,3 @@
-const BaseElement = require('./BaseElement.js')
 const logger = require('./logger.js')
 const Label = require('./Label.js')
 

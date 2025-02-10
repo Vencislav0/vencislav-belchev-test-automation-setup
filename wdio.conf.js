@@ -1,6 +1,5 @@
 const path = require('path')
 const logger = require('./framework/logger.js')
-const browserInstance = require('./framework/Browser.js')
 const { attachLogsToAllure, setLogFile, failingStep } = require('./framework/util-functions.js')
 
 exports.config = {

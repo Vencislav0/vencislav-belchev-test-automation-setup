@@ -7,7 +7,7 @@ describe('Swag Labs Login e2e', () => {
   const loginPage = new LoginPage()
 
   it('Should display correct error message when username field is empty', async () => {
-    await browser.openUrl('https://www.saucedemo.com')
+    await browser.openUrl('https://www.saucedemo.com/')
 
     await logger.logStep('Submiting form with empty username field')
     await loginPage.enterPassword('test')

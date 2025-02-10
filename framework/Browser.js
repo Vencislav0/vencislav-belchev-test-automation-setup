@@ -4,7 +4,8 @@ class Browser {
   async openUrl(path) {
     logger.debug(`Opening URL: ${path}.`)
     await browser.url(path)
-    if (browser.getUrl() != path) {
+    const normalizedPath = path.endsWith('/') ? path : path + '/'
+    if ((await this.getUrl()) != normalizedPath) {
       logger.debug(`Failed to open URL: ${path}.`)
     } else {
       logger.debug(`Opened URL: ${path}.`)

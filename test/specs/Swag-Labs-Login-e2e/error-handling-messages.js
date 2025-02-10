@@ -7,7 +7,7 @@ describe('Swag Labs Login e2e', () => {
   const loginPage = new LoginPage()
 
   it('Should display error message and icons and be removed when error message is closed', async () => {
-    await browser.openUrl('https://www.saucedemo.com/')
+    await browser.openUrl('https://www.saucedemo.com')
 
     await logger.logStep('Submiting empty login form')
     await loginPage.submit()

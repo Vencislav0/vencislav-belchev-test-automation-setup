@@ -9,7 +9,7 @@ describe('Swag Labs Login e2e', () => {
   const inventoryPage = new InventoryPage()
 
   it('Should login and redirect to product page when valid credentials are entered', async () => {
-    await browser.openUrl('https://www.saucedemo.com')
+    await browser.openUrl('https://www.saucedemo.com/')
 
     await logger.logStep('Logging with valid credentials')
     await loginPage.login('performance_glitch_user', 'secret_sauce')
