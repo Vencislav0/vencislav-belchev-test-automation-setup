@@ -11,6 +11,11 @@ class BaseElement {
     return $(this.selector)
   }
 
+  async _getElements() {
+    logger.trace(`Getting collection of elements with selector ${this.selector}`)
+    return $$(this.selector)
+  }
+
   async click() {
     logger.debug(`Clicking ${this.name}`)
     await (await this._getElement()).click()
@@ -70,14 +75,26 @@ class BaseElement {
     logger.debug(`Released click on ${this.name} after ${duration} milliseconds`)
   }
 
-  async waitForVisible(duration = 5000) {
+  async waitForVisible(duration) {
     logger.debug(`Waiting for ${this.name} to be visible with duration: ${duration}ms`)
     try {
-      await (await this._getElement()).waitForDisplayed({ timeout: duration })
+      await (await this._getElement()).waitForDisplayed({ timeout: duration, interval: 2000 })
       logger.debug(`Element ${this.name} is now visible`)
       return true
     } catch (error) {
       logger.error(`Element ${this.name} was not visible within ${duration}ms: ${error.message}`)
+      return false
+    }
+  }
+
+  async waitForClickable(duration = 5000) {
+    logger.debug(`Waiting for ${this.name} to be clickable with duration: ${duration}ms`)
+    try {
+      await (await this._getElement()).waitForClickable({ timeout: duration, interval: 2000 })
+      logger.debug(`Element ${this.name} is now clickable`)
+      return true
+    } catch (error) {
+      logger.error(`Element ${this.name} was not clickable within ${duration}ms: ${error.message}`)
       return false
     }
   }

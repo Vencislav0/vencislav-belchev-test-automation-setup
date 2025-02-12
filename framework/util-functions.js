@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { addAttachment, step } = require('@wdio/allure-reporter').default
 const { logsDir } = require('./logger.js')
+const allure = require('@wdio/allure-reporter')
 
 function attachLogsToAllure(logger) {
   if (!fs.existsSync(logger.getLogFile())) return
@@ -28,8 +29,7 @@ function setLogFile(filePath, logger) {
 }
 
 async function failingStep(message, error) {
-  step(message, () => {
-    throw new Error(error)
-  })
+  allure.startStep(message)
+  throw new Error(error)
 }
 module.exports = { attachLogsToAllure, setLogFile, failingStep }

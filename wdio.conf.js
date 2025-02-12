@@ -1,6 +1,7 @@
 const path = require('path')
 const logger = require('./framework/logger.js')
 const { attachLogsToAllure, setLogFile, failingStep } = require('./framework/util-functions.js')
+require('dotenv').config()
 
 exports.config = {
   //
@@ -24,7 +25,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: [['./test/specs/Swag-Labs-Login-e2e/*.js']],
+  specs: [['./test/specs/Battleships-Tests-e2e/playing-game-e2e-test.js']],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -53,19 +54,38 @@ exports.config = {
   // https://saucelabs.com/platform/platform-configurator
   //
 
-  capabilities: [
-    {
-      browserName: 'chrome',
-      'wdio:enforceWebDriverClassic': true,
-      'goog:chromeOptions': {
-        prefs: {
-          'download.default_directory': path.resolve(__dirname, 'downloads'),
-          'download.prompt_for_download': false,
-          'plugins.always_open_pdf_externally': true,
+  capabilities: (function () {
+    const allCapabilities = [
+      {
+        browserName: 'chrome',
+        'wdio:enforceWebDriverClassic': true,
+        'goog:chromeOptions': {
+          prefs: {
+            'download.default_directory': path.resolve(__dirname, 'downloads'),
+            'download.prompt_for_download': false,
+            'plugins.always_open_pdf_externally': true,
+          },
         },
       },
-    },
-  ],
+      {
+        browserName: 'firefox',
+        'wdio:enforceWebDriverClassic': true,
+        'moz:firefoxOptions': {
+          prefs: {
+            'download.default_directory': path.resolve(__dirname, 'downloads'),
+            'download.prompt_for_download': false,
+            'plugins.always_open_pdf_externally': true,
+          },
+        },
+      },
+    ]
+
+    const selectedBrowser = (process.env.BROWSER_NAME || 'chrome').trim()
+
+    const filteredCapabilities = allCapabilities.filter((cap) => cap.browserName === selectedBrowser)
+
+    return filteredCapabilities.length > 0 ? filteredCapabilities : [allCapabilities[0]]
+  })(),
 
   //
   // ===================
@@ -152,7 +172,7 @@ exports.config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: 'bdd',
-    timeout: 60000,
+    timeout: 600000,
   },
 
   //

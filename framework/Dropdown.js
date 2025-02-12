@@ -12,9 +12,9 @@ class Dropdown extends BaseElement {
     logger.debug(`selected option from ${this.name} with text: ${text}`)
   }
 
-  async selectByValue(value) {
-    logger.debug(`Selecting option from ${this.name} by value`)
-    await (await this._getElement()).selectByAttribute('value', value)
+  async selectByAttribute(attribute, value) {
+    logger.debug(`Selecting option from ${this.name} by attribute`)
+    await (await this._getElement()).selectByAttribute(attribute, value)
     logger.debug(`selected option from ${this.name} with value: ${value}`)
   }
 }
