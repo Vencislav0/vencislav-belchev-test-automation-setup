@@ -1,5 +1,5 @@
 export const Timeouts = {
-  LONG_TIMEOUT: 30000,
+  LONG_TIMEOUT: 50000,
   MEDIUM_TIMEOUT: 20000,
   SHORT_TIMEOUT: 5000,
   EXTRA_SHORT_TIMEOUT: 2000,
@@ -8,4 +8,4 @@ export const Timeouts = {
   DEFAULT_WAIT_INTERVAL: 1000,
   WAIT_FOR_INTERVAL: 500,
 }
-export default Timeouts
+module.exports = Timeouts

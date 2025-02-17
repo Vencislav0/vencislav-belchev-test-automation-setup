@@ -1,8 +1,9 @@
 const BaseForm = require('../framework/BaseForm.js')
-const Label = require('../framework/Label.js')
 const Button = require('../framework/Button.js')
 const DropDown = require('../framework/Dropdown.js')
 const CheckBox = require('../framework/Checkbox.js')
+const TextBox = require('../framework/TextBox.js')
+const Browser = require('../framework/Browser.js')
 
 class BattleshipPage extends BaseForm {
   constructor() {
@@ -16,6 +17,7 @@ class BattleshipPage extends BaseForm {
     this.randomiseButton = new Button('//span[@class="placeships-variant-link" and text()="Randomise"]', 'Randomise Ships Button')
     this.randomOpponentButton = new Button('//a[@class="battlefield-start-choose_rival-variant-link"]', 'Random Opponent Button')
     this.playButton = new Button('//div[@class="battlefield-start-button"]', 'Play Game Button')
+    this.chatTextBox = new TextBox('//input[@class="input input__textarea chat-teletype"]', 'Chat Text Box')
   }
 
   async switchLanguageToEnglish() {
@@ -54,6 +56,11 @@ class BattleshipPage extends BaseForm {
     if (await this.consentDataButton.isDisplayed()) {
       await this.consentDataButton.click()
     }
+  }
+
+  async sendMessageToChat(message) {
+    await this.chatTextBox.sendText(message)
+    await Browser.pressKey('Enter')
   }
 }
 

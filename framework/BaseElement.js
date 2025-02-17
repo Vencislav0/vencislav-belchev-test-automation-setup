@@ -1,4 +1,5 @@
 const logger = require('./logger.js')
+const Timeouts = require('./timeouts.js')
 
 class BaseElement {
   constructor(selector, name) {
@@ -75,10 +76,10 @@ class BaseElement {
     logger.debug(`Released click on ${this.name} after ${duration} milliseconds`)
   }
 
-  async waitForVisible(duration) {
+  async waitForVisible(duration = Timeouts.SHORT_TIMEOUT) {
     logger.debug(`Waiting for ${this.name} to be visible with duration: ${duration}ms`)
     try {
-      await (await this._getElement()).waitForDisplayed({ timeout: duration, interval: 2000 })
+      await (await this._getElement()).waitForDisplayed({ timeout: duration, interval: Timeouts.EXTRA_SHORT_TIMEOUT })
       logger.debug(`Element ${this.name} is now visible`)
       return true
     } catch (error) {
@@ -87,10 +88,10 @@ class BaseElement {
     }
   }
 
-  async waitForClickable(duration = 5000) {
+  async waitForClickable(duration = Timeouts.SHORT_TIMEOUT) {
     logger.debug(`Waiting for ${this.name} to be clickable with duration: ${duration}ms`)
     try {
-      await (await this._getElement()).waitForClickable({ timeout: duration, interval: 2000 })
+      await (await this._getElement()).waitForClickable({ timeout: duration, interval: Timeouts.EXTRA_SHORT_TIMEOUT })
       logger.debug(`Element ${this.name} is now clickable`)
       return true
     } catch (error) {
@@ -99,7 +100,7 @@ class BaseElement {
     }
   }
 
-  async waitForEnabled(duration = 5000) {
+  async waitForEnabled(duration = Timeouts.SHORT_TIMEOUT) {
     logger.debug(`Waiting for ${this.name} to be enabled with duration: ${duration}ms`)
     try {
       await (await this._getElement()).waitForEnabled({ timeout: duration })

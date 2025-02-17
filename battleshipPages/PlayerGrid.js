@@ -4,13 +4,13 @@ const BaseGrid = require('./BaseGrid.js')
 const Button = require('../framework/Button.js')
 
 class PlayerGrid extends BaseGrid {
-  constructor(grid, gridName) {
-    super(grid, gridName)
+  constructor() {
+    super('battlefield battlefield__self', 'Player grid')
     this.playerGridLabel = new Label('//div[@class="battlefield-label" and text()="Your grid"]', 'Player Grid Label')
   }
 
   static async setupPlayerGrid() {
-    const playerGrid = await PlayerGrid.create('battlefield battlefield__self', 'Player grid')
+    const playerGrid = await PlayerGrid.create(this.grid, this.gridName)
     return playerGrid
   }
 }

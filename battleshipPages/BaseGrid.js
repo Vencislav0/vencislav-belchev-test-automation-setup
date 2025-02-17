@@ -1,6 +1,6 @@
 const Label = require('../framework/Label.js')
 const logger = require('../framework/logger.js')
-const Button = require('../framework/Button.js')
+const Timeouts = require('../framework/timeouts.js')
 
 class BaseGrid {
   constructor(grid, gridName) {
@@ -13,22 +13,28 @@ class BaseGrid {
   async initialize() {
     for (let i = 1; i <= 10; i++) {
       this.battleFieldRows.push(new Label(`//div[contains(@class, "${this.grid}")]//tr[${i}]`, `${this.gridName} Battlefield Row ${i}`))
-      const cells = new Label(`//div[contains(@class, "${this.grid}")]//tr[${i}]//td/div`, `${this.gridName} BattleField Cells In Row ${i}`)
+      const cells = new Label(`//div[contains(@class, "${this.grid}")]//tr[${i}]//td`, `${this.gridName} BattleField Cells In Row ${i}`)
       this.battlefieldCells.push(await cells._getElements())
     }
   }
 
   static async create(grid, gridName) {
     logger.debug(`Creating an instance for ${gridName}`)
-    const instance = new BaseGrid(grid, gridName)
+    const instance = new this(grid, gridName)
     await instance.initialize()
     return instance
   }
 
-  async selectRandomCellAndClick(row, cell) {
+  async selectCellAndClick(row, cell) {
     const randomPosition = await this.getCell(row, cell)
     await randomPosition.waitForClickable()
     await randomPosition.click()
+    await browser.waitUntil(
+      async () => {
+        return (await this.getCellState(row, cell)).includes('empty') == false
+      },
+      { timeout: Timeouts.EXTRA_SHORT_TIMEOUT, timeoutMsg: 'Cell was empty after timeout' },
+    )
   }
 
   async getRow(rowNumber) {
@@ -51,11 +57,34 @@ class BaseGrid {
 
     logger.debug(`Row lenght: ${row.length}`)
 
-    if (cellIndex < 0) {
-      logger.error('Invalid cell index. Must be between 1 and 10.')
-      throw new Error('Invalid cell index. Must be between 1 and 10.')
+    if (cellIndex < 0 || cellIndex > 9) {
+      logger.error('Invalid cell index. Must be between 0 and 9.')
+      throw new Error('Invalid cell index. Must be between 0 and 9.')
     }
     return row[cellIndex]
+  }
+
+  async getCellState(rowNumber, cellIndex) {
+    await this.initialize()
+    logger.debug(`Getting state of cell ${cellIndex} at row ${rowNumber}`)
+
+    return (await this.getCell(rowNumber, cellIndex)).getAttribute('class')
+  }
+
+  async getAllCellsState() {
+    const statesArray = []
+    let row = 0
+    let cell = 0
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        statesArray.push(await this.battlefieldCells[row][cell].getAttribute('class'))
+        cell++
+      }
+
+      row++
+      cell = 0
+    }
+    return statesArray
   }
 }
 

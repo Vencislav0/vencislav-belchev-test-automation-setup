@@ -1,5 +1,6 @@
 const BaseForm = require('../framework/BaseForm.js')
 const Label = require('../framework/Label.js')
+const Timeouts = require('../framework/timeouts.js')
 
 class NotificationsForm extends BaseForm {
   constructor() {
@@ -20,8 +21,8 @@ class NotificationsForm extends BaseForm {
   }
 
   async isInitialTurnNotifDisplayed() {
-    const initialTurnVisible = await this.initialTurn.waitForVisible(5000)
-    const notifYourTurnVisible = await this.notifYourTurn.waitForVisible(5000)
+    const initialTurnVisible = await this.initialTurn.waitForVisible()
+    const notifYourTurnVisible = await this.notifYourTurn.waitForVisible()
 
     return initialTurnVisible || notifYourTurnVisible
   }
@@ -32,6 +33,31 @@ class NotificationsForm extends BaseForm {
 
   async getPlaceTheShipsText() {
     return this.notifPlaceTheShips.getText()
+  }
+
+  async isYouWonNotifDisplayed() {
+    return this.notifYouWon.isDisplayed()
+  }
+
+  async isOpponentLeftNotifDisplayed() {
+    return this.notifOpponentLeft.isDisplayed()
+  }
+
+  async isYourTurnDisplayed() {
+    return this.notifYourTurn.isDisplayed()
+  }
+
+  async isOpponentTurnDisplayed() {
+    return this.notifOpponentTurn.isDisplayed()
+  }
+
+  async waitForYourTurn() {
+    browser.waitUntil(
+      async () => {
+        return await this.isInitialTurnNotifDisplayed()
+      },
+      { timeout: Timeouts.LONG_TIMEOUT, interval: Timeouts.DEFAULT_WAIT_INTERVAL, timeoutMsg: 'Couldnt find a match or switch to your turn' },
+    )
   }
 }
 

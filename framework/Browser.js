@@ -1,5 +1,6 @@
 const logger = require('./logger.js')
 
+
 class Browser {
   async openUrl(path) {
     logger.debug(`Opening URL: ${path}.`)
@@ -10,6 +11,12 @@ class Browser {
     } else {
       logger.debug(`Opened URL: ${path}.`)
     }
+  }
+
+  async pressKey(key) {
+    logger.debug(`Pressing key ${key}`)
+    await browser.keys(key)
+    logger.debug(`Pressed ${key}`)
   }
 
   async getUrl() {
