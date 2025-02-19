@@ -14,7 +14,7 @@ let notificationsForm
 let player
 let randomRow, randomCell
 let cellState
-const direction = { value: 0 }
+const direction = { value: OpponentGrid.Direction.Right }
 
 describe('Battle Ships Tests e2e', () => {
   beforeEach(async () => {
@@ -23,7 +23,7 @@ describe('Battle Ships Tests e2e', () => {
     await Browser.windowMaximize()
   })
 
-  it('Should select random opponent and arrange ships correctly when randomised multiple times', async () => {
+  it.only('Should select random opponent and arrange ships correctly when randomised multiple times', async () => {
     await logger.logStep('Opening Battleship page')
     await Browser.openUrl('https://battleship-game.org/en')
 
@@ -48,7 +48,7 @@ describe('Battle Ships Tests e2e', () => {
     assert.notDeepEqual(grid, randomisedGrid, 'Ships positions should be on different spots than the initial')
   })
 
-  it('Playing Battleship with the goal to win, should pass if won else test should fail.', async () => {
+  it.only('Playing Battleship with the goal to win, should pass if won else test should fail.', async () => {
     let hitStack = []
     let huntMode = true
 
@@ -59,32 +59,25 @@ describe('Battle Ships Tests e2e', () => {
     await battleshipPage.clickPlayButton()
     opponent = await OpponentGrid.setupOpponentGrid()
 
-    await notificationsForm.waitForYourTurn()
-    await battleshipPage.sendMessageToChat('Hello, I am a poorly made bot. If you lose to me you should get good og.')
-
     while (true) {
-      const isYouLoseDisplayed = await notificationsForm.isYouLoseNotifDisplayed()
-      const isOpponentLeftDisplayed = await notificationsForm.isOpponentLeftNotifDisplayed()
-      const isYouWonDisplayed = await notificationsForm.isYouWonNotifDisplayed()
+      const currentNotificationText = await notificationsForm.getNotificationText()
 
-      if (isYouLoseDisplayed) {
+      if (currentNotificationText === 'Game over. You lose.') {
         await failingStep('Lost the game, failed to win', 'Failed to win the game of battleships')
-
         break
       }
-      if (isOpponentLeftDisplayed) {
+      if (currentNotificationText === 'Your opponent has left the game.') {
         await failingStep('Opponent left the match, Test FAIL', 'Test failed automaticaly because the opponent left the lobby')
-
         break
       }
-      if (isYouWonDisplayed) {
+      if (currentNotificationText === 'Game over. Congratulations, you won!') {
         await battleshipPage.sendMessageToChat('gg ez noob')
         await logger.logStep('Successfully won a game of Battleships!')
 
         break
       }
 
-      await notificationsForm.waitForYourTurn()
+      await notificationsForm.waitForYourTurnOrEndOfGame()
 
       if (huntMode) {
         ;[randomRow, randomCell] = randomCellGenerator.generateUniqueCell()

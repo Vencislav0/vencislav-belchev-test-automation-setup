@@ -1,7 +1,5 @@
 const Label = require('../framework/Label.js')
-const logger = require('../framework/logger.js')
 const BaseGrid = require('./BaseGrid.js')
-const Button = require('../framework/Button.js')
 
 class PlayerGrid extends BaseGrid {
   constructor() {

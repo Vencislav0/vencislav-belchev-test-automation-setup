@@ -6,15 +6,16 @@ class BaseGrid {
   constructor(grid, gridName) {
     this.grid = grid
     this.gridName = gridName
-    this.battleFieldRows = []
     this.battlefieldCells = []
   }
 
   async initialize() {
     for (let i = 1; i <= 10; i++) {
-      this.battleFieldRows.push(new Label(`//div[contains(@class, "${this.grid}")]//tr[${i}]`, `${this.gridName} Battlefield Row ${i}`))
-      const cells = new Label(`//div[contains(@class, "${this.grid}")]//tr[${i}]//td`, `${this.gridName} BattleField Cells In Row ${i}`)
-      this.battlefieldCells.push(await cells._getElements())
+      const cells = []
+      for (let j = 1; j <= 10; j++) {
+        cells.push(new Label(`//div[contains(@class, "${this.grid}")]//tr[${i}]//td[${j}]`, `${this.gridName} Cell (${i}, ${j})`))
+      }
+      this.battlefieldCells.push(cells)
     }
   }
 
@@ -26,24 +27,16 @@ class BaseGrid {
   }
 
   async selectCellAndClick(row, cell) {
+    await this.waitForNoOverlay()
     const randomPosition = await this.getCell(row, cell)
     await randomPosition.waitForClickable()
     await randomPosition.click()
     await browser.waitUntil(
       async () => {
-        return (await this.getCellState(row, cell)).includes('empty') == false
+        return (await this.getCellState(row, cell)).includes('empty') === false
       },
       { timeout: Timeouts.EXTRA_SHORT_TIMEOUT, timeoutMsg: 'Cell was empty after timeout' },
     )
-  }
-
-  async getRow(rowNumber) {
-    logger.debug(`Getting row at ${rowNumber}.`)
-    if (rowNumber < 1 || rowNumber > 10) {
-      logger.error('Invalid row number. Must be between 1 and 10.')
-      throw new Error('Invalid row number. Must be between 1 and 10.')
-    }
-    return this.battleFieldRows[rowNumber - 1]
   }
 
   async getCell(rowNumber, cellIndex) {
@@ -65,7 +58,6 @@ class BaseGrid {
   }
 
   async getCellState(rowNumber, cellIndex) {
-    await this.initialize()
     logger.debug(`Getting state of cell ${cellIndex} at row ${rowNumber}`)
 
     return (await this.getCell(rowNumber, cellIndex)).getAttribute('class')
@@ -73,18 +65,22 @@ class BaseGrid {
 
   async getAllCellsState() {
     const statesArray = []
-    let row = 0
-    let cell = 0
-    for (let i = 0; i < 10; i++) {
+    for (let i = 1; i <= 10; i++) {
       for (let j = 0; j < 10; j++) {
-        statesArray.push(await this.battlefieldCells[row][cell].getAttribute('class'))
-        cell++
+        statesArray.push(await this.getCellState(i, j))
       }
-
-      row++
-      cell = 0
     }
     return statesArray
+  }
+
+  async waitForNoOverlay() {
+    await browser.waitUntil(
+      async () => {
+        const overlays = new Label('//div[@class="battlefield battlefield__rival battlefield__wait"]/div[@class="battlefield-gap"]', 'Grid Overlay')
+        return overlays.length === 0 || !(await overlays.isDisplayed())
+      },
+      { timeout: Timeouts.DEFAULT_WAIT_TIMEOUT, timeoutMsg: 'Overlays did not disappear in time' },
+    )
   }
 }
 

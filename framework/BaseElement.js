@@ -8,7 +8,6 @@ class BaseElement {
   }
 
   async _getElement() {
-    logger.trace(`Getting element with selector ${this.selector}`)
     return $(this.selector)
   }
 
@@ -76,38 +75,35 @@ class BaseElement {
     logger.debug(`Released click on ${this.name} after ${duration} milliseconds`)
   }
 
-  async waitForVisible(duration = Timeouts.SHORT_TIMEOUT) {
+  async waitForVisible(duration = Timeouts.EXTRA_SHORT_TIMEOUT) {
     logger.debug(`Waiting for ${this.name} to be visible with duration: ${duration}ms`)
     try {
       await (await this._getElement()).waitForDisplayed({ timeout: duration, interval: Timeouts.EXTRA_SHORT_TIMEOUT })
       logger.debug(`Element ${this.name} is now visible`)
       return true
     } catch (error) {
-      logger.error(`Element ${this.name} was not visible within ${duration}ms: ${error.message}`)
       return false
     }
   }
 
-  async waitForClickable(duration = Timeouts.SHORT_TIMEOUT) {
+  async waitForClickable(duration = Timeouts.EXTRA_SHORT_TIMEOUT) {
     logger.debug(`Waiting for ${this.name} to be clickable with duration: ${duration}ms`)
     try {
       await (await this._getElement()).waitForClickable({ timeout: duration, interval: Timeouts.EXTRA_SHORT_TIMEOUT })
       logger.debug(`Element ${this.name} is now clickable`)
       return true
     } catch (error) {
-      logger.error(`Element ${this.name} was not clickable within ${duration}ms: ${error.message}`)
       return false
     }
   }
 
-  async waitForEnabled(duration = Timeouts.SHORT_TIMEOUT) {
+  async waitForEnabled(duration = Timeouts.EXTRA_SHORT_TIMEOUT) {
     logger.debug(`Waiting for ${this.name} to be enabled with duration: ${duration}ms`)
     try {
       await (await this._getElement()).waitForEnabled({ timeout: duration })
       logger.debug(`Element ${this.name} is now enabled`)
       return true
     } catch (error) {
-      logger.error(`Element ${this.name} was not enabled within ${duration}ms: ${error.message}`)
       return false
     }
   }

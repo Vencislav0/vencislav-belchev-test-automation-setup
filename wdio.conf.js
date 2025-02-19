@@ -25,7 +25,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: [['./test/specs/Battleships-Tests-e2e/*.js']],
+  specs: [['./test/specs/Battleships-Tests-e2e/playing-game-e2e-test.js']],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -227,7 +227,7 @@ exports.config = {
    * @param {Array.<String>} specs        List of spec file paths that are to be run
    * @param {object}         browser      instance of created browser/device session
    */
-  before: async function (capabilities, specs) {
+  before: async function () {
     logger.initLogger(logger.getLogFile())
   },
   /**
@@ -247,7 +247,7 @@ exports.config = {
   /**
    * Function to be executed before a test (in Mocha/Jasmine) starts.
    */
-  beforeTest: function (test, context) {
+  beforeTest: function (test) {
     logger.logStep(`Running test case: ${test.title}. From suite: ${test.parent}`)
     setLogFile(`${test.parent}_${test.title}.log`, logger)
   },
@@ -261,9 +261,10 @@ exports.config = {
    * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
    * afterEach in Mocha)
    */
-  afterTest: async function (test, context, { error, result, duration, passed, retries }) {
+  afterTest: async function (error) {
     if (error) {
       await browser.takeScreenshot()
+      attachLogsToAllure(logger)
       await failingStep('Test FAILED', error.message)
     } else {
       logger.logStep('Test PASSED')

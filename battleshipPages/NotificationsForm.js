@@ -14,6 +14,14 @@ class NotificationsForm extends BaseForm {
     this.notifOpponentLeft = new Label('//div[@class="notification notification__rival-leave"]/div', '"Your opponent has left the game." notification')
     this.notifYouWon = new Label('//div[@class="notification notification__game-over-win"]/div', '"Game over. Congratulations, you won!" notification')
     this.notifYouLose = new Label('//div[@class="notification notification__game-over-lose"]/div', '"Game over. You lose." notification')
+    this.currenctNotifPresent = new Label(
+      '//div[@class="notifications"]/div[contains(@class, "notification") and not(contains(@class, "none"))]',
+      'Current notification present on screen',
+    )
+  }
+
+  async getNotificationText() {
+    return this.currenctNotifPresent.getText()
   }
 
   async isYouLoseNotifDisplayed() {
@@ -21,10 +29,11 @@ class NotificationsForm extends BaseForm {
   }
 
   async isInitialTurnNotifDisplayed() {
-    const initialTurnVisible = await this.initialTurn.waitForVisible()
-    const notifYourTurnVisible = await this.notifYourTurn.waitForVisible()
+    return this.initialTurn.isDisplayed()
+  }
 
-    return initialTurnVisible || notifYourTurnVisible
+  async isYourTurnDisplayed() {
+    return this.notifYourTurn.isDisplayed()
   }
 
   async isPlaceTheShipsDisplayed() {
@@ -43,18 +52,19 @@ class NotificationsForm extends BaseForm {
     return this.notifOpponentLeft.isDisplayed()
   }
 
-  async isYourTurnDisplayed() {
-    return this.notifYourTurn.isDisplayed()
-  }
-
   async isOpponentTurnDisplayed() {
     return this.notifOpponentTurn.isDisplayed()
   }
 
-  async waitForYourTurn() {
-    browser.waitUntil(
+  async waitForYourTurnOrEndOfGame() {
+    await browser.waitUntil(
       async () => {
-        return await this.isInitialTurnNotifDisplayed()
+        return (
+          (await this.isYourTurnDisplayed()) ||
+          (await this.isInitialTurnNotifDisplayed()) ||
+          (await this.isYouLoseNotifDisplayed()) ||
+          (await this.isOpponentLeftNotifDisplayed())
+        )
       },
       { timeout: Timeouts.LONG_TIMEOUT, interval: Timeouts.DEFAULT_WAIT_INTERVAL, timeoutMsg: 'Couldnt find a match or switch to your turn' },
     )
