@@ -261,7 +261,7 @@ exports.config = {
    * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
    * afterEach in Mocha)
    */
-  afterTest: async function (error) {
+  afterTest: async function (test, context, { error }) {
     if (error) {
       await browser.takeScreenshot()
       attachLogsToAllure(logger)

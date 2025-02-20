@@ -6,6 +6,7 @@ const OpponentGrid = require('../../../battleshipPages/OpponentGrid.js')
 const PlayerGrid = require('../../../battleshipPages/PlayerGrid.js')
 const { failingStep } = require('../../../framework/util-functions.js')
 const NotificationsForm = require('../../../battleshipPages/NotificationsForm.js')
+const { AssertionError } = require('assert')
 
 const randomCellGenerator = require('../../../battleshipPages/RandomCellGenerator.js')
 let battleshipPage
@@ -23,7 +24,7 @@ describe('Battle Ships Tests e2e', () => {
     await Browser.windowMaximize()
   })
 
-  it.only('Should select random opponent and arrange ships correctly when randomised multiple times', async () => {
+  it('Should select random opponent and arrange ships correctly when randomised multiple times', async () => {
     await logger.logStep('Opening Battleship page')
     await Browser.openUrl('https://battleship-game.org/en')
 
@@ -62,6 +63,7 @@ describe('Battle Ships Tests e2e', () => {
     while (true) {
       const currentNotificationText = await notificationsForm.getNotificationText()
 
+      await notificationsForm.waitForYourTurnOrEndOfGame()
       if (currentNotificationText === 'Game over. You lose.') {
         await failingStep('Lost the game, failed to win', 'Failed to win the game of battleships')
         break
@@ -76,8 +78,6 @@ describe('Battle Ships Tests e2e', () => {
 
         break
       }
-
-      await notificationsForm.waitForYourTurnOrEndOfGame()
 
       if (huntMode) {
         ;[randomRow, randomCell] = randomCellGenerator.generateUniqueCell()
@@ -110,8 +110,13 @@ describe('Battle Ships Tests e2e', () => {
           }
         }
       } catch (e) {
-        logger.error(`Error clicking on the cell at row ${randomRow}, column ${randomCell}:` + e)
-        continue
+        if (e.name === 'AssertionError' || e instanceof AssertionError) {
+          logger.warn(`Assertion failed at row ${randomRow}, column ${randomCell}: ${e.message}`)
+          continue
+        } else {
+          logger.error(`Error clicking on the cell at row ${randomRow}, column ${randomCell}: ${e.message}`)
+          continue
+        }
       }
     }
   })

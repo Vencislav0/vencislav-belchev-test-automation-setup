@@ -63,7 +63,8 @@ class NotificationsForm extends BaseForm {
           (await this.isYourTurnDisplayed()) ||
           (await this.isInitialTurnNotifDisplayed()) ||
           (await this.isYouLoseNotifDisplayed()) ||
-          (await this.isOpponentLeftNotifDisplayed())
+          (await this.isOpponentLeftNotifDisplayed()) ||
+          (await this.isYouWonNotifDisplayed())
         )
       },
       { timeout: Timeouts.LONG_TIMEOUT, interval: Timeouts.DEFAULT_WAIT_INTERVAL, timeoutMsg: 'Couldnt find a match or switch to your turn' },

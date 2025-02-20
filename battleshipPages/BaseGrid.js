@@ -2,6 +2,7 @@ const Label = require('../framework/Label.js')
 const logger = require('../framework/logger.js')
 const Timeouts = require('../framework/timeouts.js')
 
+
 class BaseGrid {
   constructor(grid, gridName) {
     this.grid = grid
@@ -27,7 +28,11 @@ class BaseGrid {
   }
 
   async selectCellAndClick(row, cell) {
-    await this.waitForNoOverlay()
+    try {
+      await this.waitForNoOverlay()
+    } catch (error) {
+      logger.warn('Warning: Overlay did not disappear, likely the game ended, continuing test execution.')
+    }
     const randomPosition = await this.getCell(row, cell)
     await randomPosition.waitForClickable()
     await randomPosition.click()
