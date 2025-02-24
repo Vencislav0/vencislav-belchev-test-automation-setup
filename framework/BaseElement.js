@@ -16,6 +16,21 @@ class BaseElement {
     return $$(this.selector)
   }
 
+  async moveToElement() {
+    logger.debug(`Hovering mouse on element ${this.name}`)
+    await (await this._getElement()).moveTo()
+  }
+
+  async dragAndDrop(width, height) {
+    logger.debug(`Dragging ${this.name}`)
+    await (await this._getElement()).dragAndDrop({ x: width, y: height })
+  }
+
+  async getSize() {
+    logger.debug(`Getting size of ${this.name}`)
+    return await (await this._getElement()).getSize()
+  }
+
   async click() {
     logger.debug(`Clicking ${this.name}`)
     await (await this._getElement()).click()

@@ -25,7 +25,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: [['./test/specs/Battleships-Tests-e2e/playing-game-e2e-test.js']],
+  specs: [['./test/specs/eMag-Tests-e2e/*.js']],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -71,6 +71,7 @@ exports.config = {
         browserName: 'firefox',
         'wdio:enforceWebDriverClassic': true,
         'moz:firefoxOptions': {
+          binary: 'C:\\Program Files\\Mozilla Firefox\\firefox.exe',
           prefs: {
             'download.default_directory': path.resolve(__dirname, 'downloads'),
             'download.prompt_for_download': false,

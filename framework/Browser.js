@@ -18,6 +18,36 @@ class Browser {
     logger.debug(`Pressed ${key}`)
   }
 
+  async getTitle() {
+    logger.debug('Getting current window title')
+    return await browser.getTitle()
+  }
+
+  async switchWindow(handle) {
+    logger.debug(`Switching to window ${handle}`)
+    await browser.switchToWindow(handle)
+  }
+
+  async closeWindow() {
+    logger.debug(`Closing current window`)
+    await browser.closeWindow()
+  }
+
+  async openNewWindow(url) {
+    logger.debug(`Opening new window with url: ${url}`)
+    await browser.newWindow(url)
+  }
+
+  async getWindowHandle() {
+    logger.debug(`Getting window handle`)
+    return await browser.getWindowHandle()
+  }
+
+  async getWindowHandles() {
+    logger.debug(`Getting window handle`)
+    return await browser.getWindowHandles()
+  }
+
   async getUrl() {
     logger.debug(`Fetching current page url.`)
     const url = await browser.getUrl()
