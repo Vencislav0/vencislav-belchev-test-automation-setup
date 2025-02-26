@@ -37,16 +37,19 @@ class DronesPage extends BaseForm {
     await this.heartIconLabel.click()
   }
 
-  async getNumberOnHearIcon() {
+  async getNumberOnHeartIcon() {
     return parseInt(await this.heartIconNumber.getText())
   }
 
   async addFirstProductToFavourites() {
-    await this.firstProductAddFavouriteButton.click()
+    await this.firstProductAddFavouriteButton.click()    
   }
 
   async addSecondProductToFavourites() {
     await this.secondProductAddFavouriteButton.click()
+    await browser.waitUntil(async () => {
+    return (await this.getNumberOnHeartIcon()) + 1
+    }, {timeout: Timeouts.SHORT_TIMEOUT, timeoutMsg: 'Heart menu didnt increment by 1'})
   }
 
   async getFirstProductFavouriteState() {

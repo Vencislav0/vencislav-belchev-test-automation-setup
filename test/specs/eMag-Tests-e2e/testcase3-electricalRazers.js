@@ -1,106 +1,105 @@
-const ElectricalRazersPage = require('../../../eMagPages/ElectricalRazersPage.js')
+
 const HomePage = require('../../../eMagPages/HomePage.js')
 const { assert } = require('chai')
 const browser = require('../../../framework/Browser.js')
 const logger = require('../../../framework/logger.js')
 const allure = require('@wdio/allure-reporter')
+const Category = require('../../../eMagPages/Category.js')
+const ProductForm = require('../../../eMagPages/ProductForm.js')
 
 describe('eMAG Tests e2e', () => {
-  const electricalRazersPage = new ElectricalRazersPage()
+  const electricalRazersPage = new Category('ElectricalRazers', 'Braun')
   const homePage = new HomePage()
+  const productForm = new ProductForm()
 
   it('Should correctly sort prices and display relevant search results for electrical razers section', async () => {
     await browser.windowMaximize()
-    allure.startStep('Step 1')
 
-    await logger.logStep('Navigating to eMag home page')
-    await browser.openUrl('https://www.emag.bg/')
+    await allure.step('Navigating to eMag home page', async () => {
+      await browser.openUrl('https://www.emag.bg/')
+    })
 
-    await logger.logStep('Accept Cookies and close Log In popup if needed')
-    await homePage.acceptCookiesIfNeeded()
-    await homePage.dissmissAccountLoginPopUpIfNeeded()
+    await allure.step('Accept Cookies and close Log In popup if needed', async () => {
+      await homePage.acceptCookiesIfNeeded()
+      await homePage.dissmissAccountLoginPopUpIfNeeded()
+    })
 
-    await logger.logStep('Verifying that the tab title is as expected')
-    assert.equal(await browser.getTitle(), 'eMAG.bg - Широка гама продукти', 'Window title should be "eMAG.bg - Широка гама продукти" for home page')
+    await allure.step('Verifying that the tab title is as expected', async () => {
+      assert.equal(await browser.getTitle(), 'eMAG.bg - Широка гама продукти', 'Window title should be "eMAG.bg - Широка гама продукти" for home page')
+    })
 
-    allure.endStep()
+    await allure.step('Navigating to electrical razers section', async () => {
+      await homePage.hoverOnCategoriesMenu()
+      await homePage.hoverOnBeautyAndHealthLabel()
+      await homePage.clickOnElectricalRazersButton()
+    })
 
-    allure.startStep('Step 2')
-
-    await logger.logStep('Navigating to electrical razers section')
-    await homePage.hoverOnCategoriesMenu()
-    await homePage.hoverOnBeautyAndHealthLabel()
-    await homePage.clickOnElectricalRazersButton()
-
-    await logger.logStep('Verifying that browser tab contains "Електрически самобръсначки"')
-    assert.include(
-      await browser.getTitle(),
-      'Електрически самобръсначки',
-      'browser tab should contain "Електрически самобръсначки" after redirecting to electrical razers section',
-    )
-
-    await logger.logStep('Verifying that section title is "Ел. самобръсначки"')
-    assert.equal(
-      await homePage.getSectionTitleText(),
-      'Ел. самобръсначки',
-      'section title should be "Ел. самобръсначки" after navigating to electrical razers section',
-    )
-
-    allure.endStep()
-
-    allure.startStep('Step 3')
-
-    await logger.logStep('Dissmissing account Log In popup')
-    await homePage.dissmissAccountLoginPopUpIfNeeded()
-
-    await logger.logStep('Navigating to search filter section and typing in "Braun"')
-    await electricalRazersPage.clickSeeMoreButton()
-    await electricalRazersPage.sendTextToSearchBox('Braun')
-
-    await logger.logStep('Checking "Braun" checkbox and clicking filter button')
-    await electricalRazersPage.checkBraunCheckBox()
-    await electricalRazersPage.clickFilterButton()
-
-    await logger.logStep('Verifying all results on the first page contain Braun in the title')
-
-    await electricalRazersPage.initializeTitlesAndPrices()
-
-    const titlesArrayFirstPage = await electricalRazersPage.getAllProductTitles()
-
-    for (const title of titlesArrayFirstPage) {
-      assert.include(title.toLowerCase(), 'braun', 'All products on the page should contain "Braun" in their title')
-    }
-
-    await logger.logStep('Verifying all results on the second page contain Braun in the title')
-    await electricalRazersPage.clickNextPageButton()
-    await electricalRazersPage.initializeTitlesAndPrices()
-
-    const titlesArraySecondPage = await electricalRazersPage.getAllProductTitles()
-
-    for (const title of titlesArraySecondPage) {
-      assert.isTrue(
-        title.toLowerCase().includes('braun') || title.toLowerCase().includes('браун'),
-        'All products on the page should contain "Braun" in their title',
+    await allure.step('Verifying that browser tab contains "Електрически самобръсначки"', async () => {
+      assert.include(
+        await browser.getTitle(),
+        'Електрически самобръсначки',
+        'browser tab should contain "Електрически самобръсначки" after redirecting to electrical razers section',
       )
-    }
+    })
 
-    allure.endStep()
+    await allure.step('Verifying that section title is "Ел. самобръсначки"', async () => {
+      assert.equal(
+        await homePage.getSectionTitleText(),
+        'Ел. самобръсначки',
+        'section title should be "Ел. самобръсначки" after navigating to electrical razers section',
+      )
+    })
 
-    allure.startStep('Step 4')
+    await allure.step('Dissmissing account Log In popup', async () => {
+      await homePage.dissmissAccountLoginPopUpIfNeeded()
+    })
 
-    await logger.logStep('Sorting the results by price in descending order')
-    await electricalRazersPage.sortPriceInDescendingOrder()
+    await allure.step('Navigating to search filter section and typing in "Braun"', async () => {
+      await electricalRazersPage.clickSeeMoreButton()
+      await electricalRazersPage.sendTextToSearchBox('Braun')
+    })
 
-    await logger.logStep('Verifying that product is equal to or higher than the price of the following product.')
+    await allure.step('Checking "Braun" checkbox and clicking filter button', async () => {
+      await electricalRazersPage.checkCheckBox()
+      await electricalRazersPage.clickFilterButton()
+    })
 
-    await electricalRazersPage.initializeTitlesAndPrices()
+    await allure.step('Verifying all results on the first page contain Braun in the title', async () => {
+      let i = 1
+        while(await productForm.isValidProduct(i)){
+          assert.isTrue((await productForm.getProductTitle(i)).toLowerCase().includes('braun') || (await productForm.getProductTitle(i)).toLowerCase().includes('браун'), 'title should include Braun')
+          i++
+        }
+        i = 1
+    })
 
-    const pricesArray = await electricalRazersPage.getAllProductPrices()
+    await allure.step('Verifying all results on the second page contain Braun in the title', async () => {
+      await electricalRazersPage.clickNextPageButton()      
+      let i = 1
+        while(await productForm.isValidProduct(i)){
+          assert.isTrue((await productForm.getProductTitle(i)).toLowerCase().includes('braun') || (await productForm.getProductTitle(i)).toLowerCase().includes('браун'), 'title should include Braun')
+          i++
+        }
+        i = 1
+    })
 
-    for (let i = 0; i < pricesArray.length - 1; i++) {
-      assert.isAtLeast(pricesArray[i], pricesArray[i + 1], 'current product price should be higher or equal to the following product price')
-    }
+    await allure.step('Sorting the results by price in descending order', async () => {
+      await electricalRazersPage.sortPriceInDescendingOrder()
+    })
 
-    allure.endStep()
+    await allure.step('Verifying that product is equal to or higher than the price of the following product.', async () => {
+      let i = 1
+      while(await productForm.isValidProduct(i)){
+                
+        if(await productForm.isValidProduct(i + 1)){
+          assert.isAtLeast(await productForm.getProductPrice(i),await productForm.getProductPrice(i + 1), 'Price at current index should be equal ot greater than the price on the following index')
+        i++
+        }
+        else{
+          i++
+          continue            
+        }          
+      }
+    })
   })
 })

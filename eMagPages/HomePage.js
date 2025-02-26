@@ -29,11 +29,7 @@ class HomePage extends BaseForm {
     this.electricalRazersButton = new Button('//a[@class="megamenu-item" and @data-id="3906"]', 'Eletrical Razers Button')
     this.gamingLabel = new Label('//span[@class="megamenu-list-department__department-name" and text()="Gaming"]', 'Gaming Label')
     this.gamingConsolesButton = new Button('//a[@data-id="3721" and text()="Гейминг конзоли"]', 'Gaming Consoles Button')
-    this.vrHeadSetsButton = new Button('//a[@data-id="3805" and text()="VR Gaming Очила"]', 'VR Head Sets button')
-    this.facebookLink = new Link('//a[@class="btn btn-link font-size-lg text-primary"]/i', 'Facebook Page Link')
-    this.youtubeLink = new Link('//a[@class="btn btn-link font-size-lg text-danger"]/i[@class="em em-youtube"]', 'Youtube Channel Link')
-    this.instagramLink = new Link('//a[@class="btn btn-link font-size-lg text-danger"]/i[@class="em em-instagram"]', 'Instagram Page Link')
-    this.youtubeAcceptCookiesButton = new Button('(//span[text()="Accept all"])[1]', 'Youtube Accept Cookies Button')
+    this.vrHeadSetsButton = new Button('//a[@data-id="3805" and text()="VR Gaming Очила"]', 'VR Head Sets button')    
   }
 
   async clickFacebookLink() {
@@ -97,18 +93,7 @@ class HomePage extends BaseForm {
       await this.cookiesAcceptButton.click()
     }
   }
-
-  async acceptYoutubeCookiesIfNeeded() {
-    if (await this.youtubeAcceptCookiesButton.isDisplayed()) {
-      await this.youtubeAcceptCookiesButton.click()
-      await browser.waitUntil(
-        async () => {
-          return (await browser.isLoading()) === false
-        },
-        { timeout: Timeouts.SHORT_TIMEOUT, timeoutMsg: 'Couldnt load page' },
-      )
-    }
-  }
+  
 
   async dissmissAccountLoginPopUpIfNeeded() {
     if (await this.logIntoAccountDissmissButton.isDisplayed()) {
