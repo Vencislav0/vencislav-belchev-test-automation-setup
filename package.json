@@ -11,15 +11,16 @@
     "prepare": "husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks && git config --unset core.hooksPath",
     "lint-prettify": "eslint . --fix && prettier --write .",
     "allure-report": "allure generate --clean allure-results && allure open",
-    "clear-report": "rimraf allure-results/*",
     "test-firefox": "set BROWSER_NAME=firefox && npx wdio run wdio.conf.js",
     "test-chrome": "set BROWSER_NAME=chrome && npx wdio run wdio.conf.js",
-    "clear-report-run-test": "rimraf allure-results/* && npx wdio"
+    "clear-report-run-test": "rimraf allure-results/* && npx wdio",
+    "test": "npx wdio"
   },
   "dependencies": {
     "chai": "^4.4.1",
     "esm": "^3.2.25",
-    "log4js": "^6.9.1"
+    "log4js": "^6.9.1",
+    "string-similarity": "^4.0.4"
   },
   "optionalDependencies": {
     "eslint": "^8.56.0",

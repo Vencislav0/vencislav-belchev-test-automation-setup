@@ -6,13 +6,10 @@ const TextBox = require('../framework/TextBox.js')
 class SearchBoxForm extends BaseForm {
   constructor() {
     super('//div[@class="input-group searchbox-input"]', 'Search Box Form')
-    this.searchTextBox = new TextBox('//input[@class="searchbox-main gtm_search_bar_click_search_week js-searchbox-input"]', 'Search TextBox')
-    this.searchBoxXButton = new Button('//button[@class="searchbox-close btn btn-default"]', 'Search Box X Button')
-    this.searchBoxMagnifierButton = new Button('//button[@class="btn btn-default searchbox-submit-button"]', 'Search Box Magnifier Button')
-    this.popularSearchResultsLabel = new Label(
-      '//div[@class="searchbox-section searchbox-initial-content searchbox-active"]/p/strong',
-      'Popular search results label',
-    )
+    this.searchTextBox = new TextBox('//input[@id="searchboxTrigger"]', 'Search TextBox')
+    this.searchBoxXButton = new Button('//button[@type="reset"]', 'Search Box X Button')
+    this.searchBoxMagnifierButton = new Button('//button[.//i[@class="em em-search"]]', 'Search Box Magnifier Button')
+    this.popularSearchResultsLabel = new Label('//div[@class="searchbox-dropdown-content"]//strong', 'Popular search results label')
   }
 
   async isPopularSearchResultsLabelDisplayed() {

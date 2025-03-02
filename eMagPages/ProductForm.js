@@ -1,43 +1,41 @@
 const Button = require('../framework/Button.js')
 const Label = require('../framework/Label.js')
 const BaseForm = require('../framework/BaseForm.js')
-const Dropdown = require('../framework/Dropdown.js')
-const TextBox = require('../framework/TextBox.js')
-const CheckBox = require('../framework/Checkbox.js')
-const Timeouts = require('../framework/timeouts.js')
 
-class ProductForm extends BaseForm{
-    constructor(){
-        super('//div[@id="card_grid"]//div[@class="card-v2-wrapper js-section-wrapper"]', 'Product Form')
-        this.productPrice  
-        this.productTitle
-    }
+class ProductForm extends BaseForm {
+  constructor(index) {
+    const productFormLocator = `(//div[@id="card_grid"]//div[@class="card-v2"])[${index}]`
+    super(`(//div[@id="card_grid"]//div[@class="card-v2"])[${index}]`, 'Product Locator')
+    this.index = index
+    this.productPrice = new Label(`${productFormLocator}//p[@class="product-new-price"]`, 'Product Price')
+    this.productPriceOpenedProduct = new Label(`${productFormLocator}//p[@class="pricing rrp"]`, 'Product Price On Opened Product')
+    this.productTitle = new Label(`${productFormLocator}//h2[@class="card-v2-title-wrapper"]/a`, 'Product Title')
+    this.productAddFavouriteButton = new Button(`(//div[@class="card-v2-toolbox"]/button[@data-type="micro"])[${index}]`, 'Add Favourite Button')
+  }
 
-    async getProductTitle(index){
-        this.productTitle = new Label(`(//div[@id="card_grid"]//h2[@class="card-v2-title-wrapper"]/a)[${index}]`)
+  async getProductTitle() {
+    return this.productTitle.getText()
+  }
 
-        return this.productTitle.getText()
-    }
+  async getProductPrice() {
+    return this.productPrice.getText()
+  }
 
-    async getProductPrice(index){
-    this.productPrice = new Label(`(//div[@id="card_grid"]//p[@class="product-new-price"])[${index}]`, 'Product Price')
-    const priceText = await this.productPrice.getText()
-    const numericValue = parseFloat(priceText.replace(/[^\d,]/g, '').replace(',', '.'))
+  async getOpenedProductPrice() {
+    return this.productPriceOpenedProduct.getText()
+  }
 
-    return numericValue
-    }
+  async addProductToFavourites() {
+    await this.productAddFavouriteButton.click()
+  }
 
-    async isValidProduct(index){
-        try{
-        let productTitle = new Label(`(//div[@id="card_grid"]//h2[@class="card-v2-title-wrapper"]/a)[${index}]`, 'Product Title')
-        let productPrice = new Label(`(//div[@id="card_grid"]//p[@class="product-new-price"])[${index}]`, 'Product Price')
-        return (await productTitle.isDisplayed()) && (await productPrice.isDisplayed())
+  async getProductFavouriteState() {
+    return await this.productAddFavouriteButton.getAttribute('class')
+  }
 
-        }
-        catch(er){
-            return false
-        }        
-    }
+  async getProductHeartLabel() {
+    return this.productAddFavouriteButton.getText()
+  }
 }
 
 module.exports = ProductForm

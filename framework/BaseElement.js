@@ -21,9 +21,9 @@ class BaseElement {
     await (await this._getElement()).moveTo()
   }
 
-  async dragAndDrop(width, height) {
+  async dragAndDrop(x, y) {
     logger.debug(`Dragging ${this.name}`)
-    await (await this._getElement()).dragAndDrop({ x: width, y: height })
+    await (await this._getElement()).dragAndDrop({ x: x, y: y })
   }
 
   async getSize() {
