@@ -3,6 +3,7 @@ const HomePage = require('../../../eMagPages/HomePage.js')
 const allure = require('@wdio/allure-reporter')
 const ManufacturerFilterForm = require('../../../eMagPages/FilterForms/ManufacturerFilterForm.js')
 const Steps = require('../../../eMagPages/Steps.js')
+const browser = require('../../../framework/Browser.js')
 
 describe('eMAG Tests e2e', () => {
   const phonePage = new Category('phones')
@@ -10,6 +11,8 @@ describe('eMAG Tests e2e', () => {
   const filterForm = new ManufacturerFilterForm()
 
   it('Should correctly sort prices and display relevant search results for mobile phones section', async () => {
+    await browser.windowMaximize()
+    
     await Steps.navigateToCategory(phonePage, homePage, 'Мобилни телефони')
 
     await allure.step('Dissmissing account Log In popup', async () => {

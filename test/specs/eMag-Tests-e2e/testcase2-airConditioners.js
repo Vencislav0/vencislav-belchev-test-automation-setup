@@ -3,6 +3,7 @@ const allure = require('@wdio/allure-reporter')
 const Category = require('../../../eMagPages/CategoryPage.js')
 const ManufacturerFilterForm = require('../../../eMagPages/FilterForms/ManufacturerFilterForm.js')
 const Steps = require('../../../eMagPages/Steps.js')
+const browser = require('../../../framework/Browser.js')
 
 describe('eMAG Tests e2e', () => {
   const airConditioningPage = new Category('airConditioners')
@@ -10,6 +11,7 @@ describe('eMAG Tests e2e', () => {
   const filterForm = new ManufacturerFilterForm('Manufacturer')
 
   it('Should correctly sort prices and display relevant search results for air conditioners section', async () => {
+    await browser.windowMaximize()
     await Steps.navigateToCategory(airConditioningPage, homePage, 'Климатици')
 
     await allure.step('Dissmissing account Log In popup', async () => {

@@ -128,8 +128,7 @@ class Steps {
   }
 
   async navigateToCategory(categoryInstance, homePageInstance, categoryName) {
-    //await Browser.windowMaximize()
-
+    
     await allure.step('Navigating to eMAG home page', async () => {
       await Browser.openUrl('https://www.emag.bg/')
     })

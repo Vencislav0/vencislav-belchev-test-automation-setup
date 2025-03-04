@@ -11,7 +11,7 @@ describe('eMAG Tests e2e', () => {
   const youtubeChannelPage = new YoutubeChannelPage()
 
   it('Should correctly redirect to the correct social media links', async () => {
-    //await browser.windowMaximize()
+    await browser.windowMaximize()
     let mainWindow
     let windowHandles
     let facebookWindow

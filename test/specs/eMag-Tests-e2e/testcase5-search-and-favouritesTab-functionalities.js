@@ -18,7 +18,7 @@ describe('eMAG Tests e2e', () => {
   const sortForm = new SortForm()
 
   it('Should correctly perform search on items and favorites page and icons should work as expected', async () => {
-    //await browser.windowMaximize()
+    await browser.windowMaximize()
 
     await allure.step('Navigating to eMag home page', async () => {
       await browser.openUrl('https://www.emag.bg/')
