@@ -63,7 +63,8 @@ exports.config = {
           args: [  
             '--headless',           
             '--disable-gpu',           
-            '--no-sandbox',             
+            '--no-sandbox',
+            '--disable-dev-shm-usage'             
           ],
           prefs: {
             'download.default_directory': path.resolve(__dirname, 'downloads'),
