@@ -60,6 +60,10 @@ exports.config = {
         browserName: 'chrome',
         'wdio:enforceWebDriverClassic': true,
         'goog:chromeOptions': {
+          args: [            
+            '--no-sandbox', 
+            '--user-data-dir=/tmp/chrome-user-data'
+          ],
           prefs: {
             'download.default_directory': path.resolve(__dirname, 'downloads'),
             'download.prompt_for_download': false,
