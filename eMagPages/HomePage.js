@@ -22,7 +22,7 @@ class HomePage extends BaseForm {
 
   async dissmissAccountLoginPopUpIfNeeded() {
     if (await this.logIntoAccountDissmissButton.isDisplayed()) {
-      this.logIntoAccountDissmissButton.click()
+      await this.logIntoAccountDissmissButton.click()
     }
   }
 }

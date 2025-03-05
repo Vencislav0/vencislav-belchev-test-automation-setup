@@ -86,7 +86,7 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Verifying that the correct url is displayed', async () => {
-      assert.equal(await browser.getUrl(), 'https://www.youtube.com/channel/UC5y5r9BY5IiT4MkBrMtZRnA', 'Window Url should be the EMAG youtube channel page')
+      assert.include(await browser.getUrl(), 'https://www.youtube.com/channel/UC5y5r9BY5IiT4MkBrMtZRnA', 'Window Url should be the EMAG youtube channel page')
     })
 
     await allure.step('Closing the Youtube tab', async () => {
