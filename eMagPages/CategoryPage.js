@@ -6,20 +6,20 @@ const ProductForm = require('./ProductForm.js')
 const Categories = {
   phones: {
     category: 'Mobile Phones',
-    navigationLocator: '//span[@class="megamenu-list-department__department-name" and text()="Телефони, Таблети & Лаптопи"]',
-    navigationButtonLocator: '//a[@class="megamenu-item" and @data-id="3861"]',
+    categoryID: '1',
+    itemID: '3861',
   },
 
   airConditioners: {
     category: 'Air Conditioners',
-    navigationLocator: '//span[@class="megamenu-list-department__department-name" and text()="Големи електроуреди"]',
-    navigationButtonLocator: '//a[@class="megamenu-item" and @data-id="3187"]',
+    categoryID: '418',
+    itemID: '3187',
   },
 
   electricalRazers: {
     category: 'Electrical Razers',
-    navigationLocator: '//span[@class="megamenu-list-department__department-name" and text()="Здраве и красота"]',
-    navigationButtonLocator: '//a[@class="megamenu-item" and @data-id="3906"]',
+    categoryID: '549',
+    itemID: '3906',
   },
 
   drones: {
@@ -28,13 +28,13 @@ const Categories = {
 
   gamingConsoles: {
     category: 'Gaming Consoles',
-    navigationLocator: '//span[@class="megamenu-list-department__department-name" and text()="Gaming"]',
-    navigationButtonLocator: '//a[@data-id="3721" and text()="Гейминг конзоли"]',
+    categoryID: '3096',
+    itemID: '3721',
   },
   vrHeadSets: {
     category: 'VR Head Sets',
-    navigationLocator: '//span[@class="megamenu-list-department__department-name" and text()="Gaming"]',
-    navigationButtonLocator: '//a[@data-id="3805" and text()="VR Gaming Очила"]',
+    categoryID: '3096',
+    itemID: '3805',
   },
 
   dummyCategory: {
@@ -51,8 +51,8 @@ class Category extends BaseForm {
     super('//div[@class="page-container"]', `${categoryData.category} Page Container`)
     this.categoryData = categoryData
     this.sectionTitle = new Label('//h1', 'Section Title')
-    this.navigationLabel = new Label(categoryData.navigationLocator, `${categoryData.category} Navigation Locator`)
-    this.categoryNavigationButton = new Button(categoryData.navigationButtonLocator, `${categoryData.category} Navigation Button`)
+    this.navigationLabel = new Label(`//li[@data-id="${categoryData.categoryID}"]`, `${categoryData.category} Navigation Locator`)
+    this.categoryNavigationButton = new Button(`//a[@data-id="${categoryData.itemID}"]`, `${categoryData.category} Navigation Button`)
     this.pageHeader = new Label('//div[@class="listing-page-title js-head-title"]//span', 'Page Header')
     this.nextPageButton = new Button('//span[text()="Напред"]', 'Navigation Button To Next Page')
     this.heartIconNumber = new Label('//span[@class="jewel jewel-danger"]', 'Number on the Heart Icon')

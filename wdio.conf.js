@@ -60,11 +60,11 @@ exports.config = {
         browserName: 'chrome',
         'wdio:enforceWebDriverClassic': true,
         'goog:chromeOptions': {
-          args: [  
-            '--headless',           
-            '--disable-gpu',           
+          args: [
+            //'--headless',
+            '--disable-gpu',
             '--no-sandbox',
-            '--disable-dev-shm-usage'             
+            '--disable-dev-shm-usage',
           ],
           prefs: {
             'download.default_directory': path.resolve(__dirname, 'downloads'),

@@ -84,10 +84,7 @@ describe('eMAG Tests e2e', () => {
 
     await allure.step('Storing initial price of the first product', async () => {
       const product = new ProductForm(1)
-      const priceText = await product.getProductPrice(1)
-      const numericValue = parseFloat(priceText.replace(/[^\d,]/g, '').replace(',', '.'))
-
-      initialProductPrice = numericValue
+      initialProductPrice = await Steps.getProductNumericValue(product)
     })
 
     await allure.step('Dragging the knob to the middle of the price range', async () => {

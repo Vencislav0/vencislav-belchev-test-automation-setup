@@ -9,6 +9,7 @@ const logger = require('../../../framework/logger.js')
 const allure = require('@wdio/allure-reporter')
 const ProductForm = require('../../../eMagPages/ProductForm.js')
 const FavoritesProductForm = require('../../../eMagPages/FavoritesProductForm.js')
+const Steps = require('../../../eMagPages/Steps.js')
 
 describe('eMAG Tests e2e', () => {
   const homePage = new HomePage()
@@ -108,6 +109,7 @@ describe('eMAG Tests e2e', () => {
     await allure.step('Clicking heart icon on the first two items on the page', async () => {
       await firstProduct.addProductToFavourites()
       await secondProduct.addProductToFavourites()
+      await Steps.waitUntilHeartIconNumberIs2()
     })
 
     await allure.step('Verifying that the icon state for both products is active', async () => {

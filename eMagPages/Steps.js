@@ -6,7 +6,6 @@ const SortForm = require('./SortForm.js')
 const allure = require('@wdio/allure-reporter')
 const { assert } = require('chai')
 const Category = require('./CategoryPage.js')
-const logger = require('../framework/logger.js')
 
 const categoryPage = new Category('dummyCategory')
 const sortForm = new SortForm()
@@ -55,6 +54,15 @@ class Steps {
     )
   }
 
+  async waitUntilHeartIconNumberIs2() {
+    await browser.waitUntil(
+      async () => {
+        return (await categoryPage.getNumberOnHeartIcon()) === 2
+      },
+      { timeout: Timeouts.DEFAULT_WAIT_INTERVAL, timeoutMsg: "Number on heart icon didn't update" },
+    )
+  }
+
   async waitUntilUrlUpdates() {
     const initialUrl = await browser.getUrl()
     await browser.waitUntil(
@@ -77,10 +85,14 @@ class Steps {
 
       const productTitle = (await productForm.getProductTitle()).toLowerCase()
 
-      assert.isTrue(
-        productTitle.includes(word.toLowerCase()) || productTitle.includes(wordInBulgarian.toLowerCase()),
-        `Product ${i} title "${productTitle}" should include "${word}" or "${wordInBulgarian}"`,
-      )
+      if (wordInBulgarian) {
+        assert.isTrue(
+          productTitle.includes(wordInBulgarian.toLowerCase()) || productTitle.includes(word.toLowerCase()),
+          `Product ${i} title "${productTitle}" should include "${wordInBulgarian}" or "${word}"`,
+        )
+      } else {
+        assert.isTrue(productTitle.includes(word.toLowerCase()), `Product ${i} title "${productTitle}" should include "${word}"`)
+      }
     }
   }
 
@@ -127,8 +139,7 @@ class Steps {
     })
   }
 
-  async navigateToCategory(categoryInstance, homePageInstance, categoryName) {
-    
+  async navigateToCategory(categoryInstance, homePageInstance, categoryName, shortCategoryName) {
     await allure.step('Navigating to eMAG home page', async () => {
       await Browser.openUrl('https://www.emag.bg/')
     })
@@ -154,18 +165,12 @@ class Steps {
 
     await allure.step(`Verifying section title is "${categoryName}"`, async () => {
       const actualTitle = await categoryInstance.getSectionTitleText()
-      let expectedTitle = categoryName.trim()
-      expectedTitle = expectedTitle.slice(expectedTitle.length / 2)
-      try {
+      if (shortCategoryName) {
+        const expectedTitle = shortCategoryName.trim()
+        assert.equal(actualTitle, expectedTitle, `Section title should be "${shortCategoryName}" after navigating to section`)
+      } else {
+        const expectedTitle = categoryName.trim()
         assert.equal(actualTitle, expectedTitle, `Section title should be "${categoryName}" after navigating to section`)
-      } catch (err) {
-        logger.debug(`Exact match failed: Expected "${expectedTitle}", got "${actualTitle} likely because the section title uses a shortened version"`)
-        logger.debug('Checking for substring match as a fallback..')
-
-        //we can discuss this, the case is really specific "Ел. самобръсначки" on section title and "Електически съмобръсначки" on tab title 
-        //I've noticed that most of the categories have the same tab title and section title but this is an exception
-        //but i realize it might be unreliable to assert that the actual title contains the substring of the middle of the expected title
-        assert.isTrue(actualTitle.includes(expectedTitle) || actualTitle.includes(expectedTitle.slice(expectedTitle.length / 2)), 'Title substring should match')
       }
     })
   }

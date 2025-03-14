@@ -51,7 +51,7 @@ class BaseElement {
     return isEnabled
   }
 
-  async isExisting(){
+  async isExisting() {
     logger.debug(`Checking if ${this.name} exists in the dom`)
     const isExisting = await (await this._getElement()).isExisting()
     logger.debug(`${this.name} exists: ${isExisting}.`)
