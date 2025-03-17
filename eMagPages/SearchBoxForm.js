@@ -2,6 +2,7 @@ const Button = require('../framework/Button.js')
 const Label = require('../framework/Label.js')
 const BaseForm = require('../framework/BaseForm.js')
 const TextBox = require('../framework/TextBox.js')
+const Timeouts = require('../framework/timeouts.js')
 
 class SearchBoxForm extends BaseForm {
   constructor() {
@@ -26,6 +27,12 @@ class SearchBoxForm extends BaseForm {
 
   async clickOnSearchTextBox() {
     await this.searchTextBox.click()
+    await browser.waitUntil(
+      async () => {
+        return await this.popularSearchResultsLabel.isDisplayed()
+      },
+      { timeout: Timeouts.DEFAULT_WAIT_INTERVAL, timeoutMsg: 'Couldnt load page after filtering price' },
+    )
   }
 
   async isSearchboxXButtonDisplayed() {

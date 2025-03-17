@@ -41,7 +41,7 @@ describe('eMAG Tests e2e', () => {
     await allure.step('Navigating to gaming consoles section', async () => {
       await homePage.hoverOnCategoriesMenu()
       await vrHeadSetsPage.hoverOnCategoryLabel()
-      await new Category('gamingConsoles').clickOnCategoryNavigationButton()
+      await new Category('gamingConsoles').clickOnItemButton()
     })
 
     await allure.step('Dissmissing account Log In popup', async () => {
@@ -59,7 +59,7 @@ describe('eMAG Tests e2e', () => {
     await allure.step('Navigating to var headsets section', async () => {
       await homePage.hoverOnCategoriesMenu()
       await vrHeadSetsPage.hoverOnCategoryLabel()
-      await vrHeadSetsPage.clickOnCategoryNavigationButton()
+      await vrHeadSetsPage.clickOnItemButton()
     })
 
     await logger.logStep('Defining product price before filter and after for later use')
@@ -88,7 +88,7 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Dragging the knob to the middle of the price range', async () => {
-      await filterForm.moveLeftKnob(128)
+      await filterForm.moveLeftKnob(130)
       await Steps.waitUntilUrlUpdates()
     })
 

@@ -51,8 +51,8 @@ class Category extends BaseForm {
     super('//div[@class="page-container"]', `${categoryData.category} Page Container`)
     this.categoryData = categoryData
     this.sectionTitle = new Label('//h1', 'Section Title')
-    this.navigationLabel = new Label(`//li[@data-id="${categoryData.categoryID}"]`, `${categoryData.category} Navigation Locator`)
-    this.categoryNavigationButton = new Button(`//a[@data-id="${categoryData.itemID}"]`, `${categoryData.category} Navigation Button`)
+    this.categoryLabel = new Label(`//li[@data-id="${categoryData.categoryID}"]`, `${categoryData.category} Navigation Locator`)
+    this.ItemButton = new Button(`//a[@data-id="${categoryData.itemID}"]`, `${categoryData.category} Navigation Button`)
     this.pageHeader = new Label('//div[@class="listing-page-title js-head-title"]//span', 'Page Header')
     this.nextPageButton = new Button('//span[text()="Напред"]', 'Navigation Button To Next Page')
     this.heartIconNumber = new Label('//span[@class="jewel jewel-danger"]', 'Number on the Heart Icon')
@@ -86,11 +86,11 @@ class Category extends BaseForm {
   }
 
   async hoverOnCategoryLabel() {
-    await this.navigationLabel.moveToElement()
+    await this.categoryLabel.moveToElement()
   }
 
-  async clickOnCategoryNavigationButton() {
-    await this.categoryNavigationButton.click()
+  async clickOnItemButton() {
+    await this.ItemButton.click()
   }
 }
 

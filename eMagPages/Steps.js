@@ -156,7 +156,7 @@ class Steps {
     await allure.step(`Navigating to ${categoryName} page`, async () => {
       await homePageInstance.hoverOnCategoriesMenu()
       await categoryInstance.hoverOnCategoryLabel()
-      await categoryInstance.clickOnCategoryNavigationButton()
+      await categoryInstance.clickOnItemButton()
     })
 
     await allure.step(`Verifying updated browser tab contains ${categoryName}`, async () => {
