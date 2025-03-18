@@ -64,11 +64,8 @@ describe('eMAG Tests e2e', () => {
 
     await logger.logStep('Defining product price before filter and after for later use')
     let productPriceAfterFilter
-    let initialProductPrice
     let productTitleAfterFilter
-    await logger.logStep('Defining product inside cart page')
-    let cartProductTitle
-    let cartProductPrice
+    let initialProductPrice
 
     await allure.step('Dissmissing account Log In popup', async () => {
       await homePage.dissmissAccountLoginPopUpIfNeeded()
@@ -109,10 +106,6 @@ describe('eMAG Tests e2e', () => {
       assert.isTrue(await filterForm.isPriceFrameCheckBoxChecked(), 'Price frame checkbox should be checked after price filtering')
     })
 
-    await logger.logStep('Getting the text and price of the first product for later comparison')
-    const productTitle = productTitleAfterFilter
-    const productPrice = productPriceAfterFilter
-
     await allure.step('Clicking the title of the first product on the page', async () => {
       await vrHeadSetsPage.clickProduct(1)
     })
@@ -120,8 +113,8 @@ describe('eMAG Tests e2e', () => {
     await allure.step('Verifying that the product title and price on VR headset page is the same as in the product page', async () => {
       const productPagePrice = await Steps.getProductNumericValue(productPage)
       const productPageTitle = await productPage.getProductTitle()
-      assert.equal(productTitle, productPageTitle, 'Product title should be the same as the product title on the vr headset page')
-      assert.equal(productPrice, productPagePrice, 'Product price should be the same as the product title on the vr headset page')
+      assert.equal(productTitleAfterFilter, productPageTitle, 'Product title should be the same as the product title on the vr headset page')
+      assert.equal(productPriceAfterFilter, productPagePrice, 'Product price should be the same as the product title on the vr headset page')
     })
 
     await allure.step('Clicking "Add To Cart" button', async () => {
@@ -139,8 +132,8 @@ describe('eMAG Tests e2e', () => {
     await allure.step('Verifying that the price and product are correct by comparing them to the initial title and price', async () => {
       const modalFormPrice = await Steps.getProductNumericValue(modalForm)
       const modalFormTitle = await modalForm.getProductTitle()
-      assert.equal(productTitle, modalFormTitle, 'Title should be the same as the initial product title')
-      assert.equal(productPrice, modalFormPrice, 'Price should be the same as the initial product price')
+      assert.equal(productTitleAfterFilter, modalFormTitle, 'Title should be the same as the initial product title')
+      assert.equal(productPriceAfterFilter, modalFormPrice, 'Price should be the same as the initial product price')
     })
 
     await allure.step('Clicking on "See Cart" Button', async () => {
@@ -150,13 +143,13 @@ describe('eMAG Tests e2e', () => {
     await logger.logStep('Initializing product object inside cart page and getting price and title')
     const cartProduct = new CartProductForm(1)
 
-    cartProductPrice = await Steps.getProductNumericValue(cartProduct)
-    cartProductTitle = await cartProduct.getProductTitle()
+    const cartProductPrice = await Steps.getProductNumericValue(cartProduct)
+    const cartProductTitle = await cartProduct.getProductTitle()
 
     await allure.step('Verifying that the correct product is displayed and page header is "Количка за пазаруване"', async () => {
       assert.equal(await cartPage.getCartPageHeaderText(), 'Количка за пазаруване', '"Количка за пазаруване" should be the header text')
-      assert.equal(productTitle, cartProductTitle, 'Product title on cart page should be the same as initial product title before checkout')
-      assert.equal(productPrice, cartProductPrice, 'Product price on cart page should be the same as initial product price before checkout')
+      assert.equal(productTitleAfterFilter, cartProductTitle, 'Product title on cart page should be the same as initial product title before checkout')
+      assert.equal(productPriceAfterFilter, cartProductPrice, 'Product price on cart page should be the same as initial product price before checkout')
     })
 
     await logger.logStep('Storing Quantity for comparison')

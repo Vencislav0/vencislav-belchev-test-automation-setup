@@ -13,11 +13,9 @@ describe('eMAG Tests e2e', () => {
   it('Should correctly redirect to the correct social media links', async () => {
     await browser.windowMaximize()
     let mainWindow
+    let secondWindow
     let windowHandles
-    let facebookWindow
     let tabsCount
-    let instagramWindow
-    let youtubeWindow
 
     await allure.step('Navigating to eMag home page', async () => {
       await browser.openUrl('https://www.emag.bg/')
@@ -45,8 +43,8 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Verifying that the url on the newly opened tab is correct', async () => {
-      facebookWindow = windowHandles[windowHandles.length - 1]
-      await browser.switchWindow(facebookWindow)
+      secondWindow = windowHandles[windowHandles.length - 1]
+      await browser.switchWindow(secondWindow)
       assert.equal(await browser.getUrl(), 'https://www.facebook.com/eMAGbg', 'Window Url should be the facebook eMAG page')
     })
 
@@ -77,8 +75,8 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Switching to youtube tab', async () => {
-      youtubeWindow = windowHandles[windowHandles.length - 1]
-      await browser.switchWindow(youtubeWindow)
+      secondWindow = windowHandles[windowHandles.length - 1]
+      await browser.switchWindow(secondWindow)
     })
 
     await allure.step('Accept Cookies if needed', async () => {
@@ -111,8 +109,8 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Verifying that the url on the newly opened tab is correct', async () => {
-      instagramWindow = windowHandles[windowHandles.length - 1]
-      await browser.switchWindow(instagramWindow)
+      secondWindow = windowHandles[windowHandles.length - 1]
+      await browser.switchWindow(secondWindow)
       assert.equal(await browser.getUrl(), 'https://www.instagram.com/emag.bg_official/', 'Window Url should be the instagram eMAG page')
     })
 

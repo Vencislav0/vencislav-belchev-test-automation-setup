@@ -73,7 +73,7 @@ class Steps {
     )
   }
 
-  async assertProductTitlesInclude(word, wordInBulgarian) {
+  async assertProductTitlesInclude(brandName, brandLocalized) {
     const formsCount = await this.getFormsCount()
 
     for (let i = 1; i < formsCount; i++) {
@@ -85,13 +85,13 @@ class Steps {
 
       const productTitle = (await productForm.getProductTitle()).toLowerCase()
 
-      if (wordInBulgarian) {
+      if (brandLocalized) {
         assert.isTrue(
-          productTitle.includes(wordInBulgarian.toLowerCase()) || productTitle.includes(word.toLowerCase()),
-          `Product ${i} title "${productTitle}" should include "${wordInBulgarian}" or "${word}"`,
+          productTitle.includes(brandLocalized.toLowerCase()) || productTitle.includes(brandName.toLowerCase()),
+          `Product ${i} title "${productTitle}" should include "${brandLocalized}" or "${brandName}"`,
         )
       } else {
-        assert.isTrue(productTitle.includes(word.toLowerCase()), `Product ${i} title "${productTitle}" should include "${word}"`)
+        assert.isTrue(productTitle.includes(brandName.toLowerCase()), `Product ${i} title "${productTitle}" should include "${brandName}"`)
       }
     }
   }

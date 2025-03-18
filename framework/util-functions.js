@@ -19,9 +19,13 @@ function setLogFile(filePath, logger) {
 
   const testFileName = path.basename(filePath, path.extname(filePath))
   const logFile = path.join(logsDir, `${testFileName}.log`)
+  const defaultlogFile = path.join(logsDir, `default.log`)
 
   if (fs.existsSync(logFile)) {
     fs.unlinkSync(logFile)
+  }
+  if (fs.existsSync(defaultlogFile)) {
+    fs.unlinkSync(defaultlogFile)
   }
 
   fs.writeFileSync(logFile, '', { flag: 'w' })
