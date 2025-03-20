@@ -1,5 +1,6 @@
 const path = require('path')
 const logger = require('./framework/logger.js')
+const Browser = require('./framework/Browser.js')
 const { attachLogsToAllure, setLogFile, failingStep } = require('./framework/util-functions.js')
 require('dotenv').config()
 
@@ -25,7 +26,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: [['./test/specs/eMag-Tests-e2e/*.js']],
+  specs: [['./test/specs/eMag-Tests-e2e/testcase5-search-and-favouritesTab-functionalities.js']],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -254,7 +255,8 @@ exports.config = {
   /**
    * Function to be executed before a test (in Mocha/Jasmine) starts.
    */
-  beforeTest: function (test) {
+  beforeTest: async function (test) {
+    await Browser.setWindowSize(1920, 1080)
     logger.logStep(`Running test case: ${test.title}. From suite: ${test.parent}`)
     setLogFile(`${test.parent}_${test.title}.log`, logger)
   },

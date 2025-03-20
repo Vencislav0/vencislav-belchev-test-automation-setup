@@ -1,5 +1,5 @@
 const logger = require('./logger.js')
-const Label = require('./Label.js')
+const Label = require('.//elementWrappers/Label.js')
 
 class BaseForm {
   constructor(selector, name) {

@@ -1,26 +1,25 @@
-const HomePage = require('../../../eMagPages/HomePage.js')
-const SearchBoxForm = require('../../../eMagPages/SearchBoxForm.js')
-const FavoritesPage = require('../../../eMagPages/FavoritesPage.js')
-const Category = require('../../../eMagPages/CategoryPage.js')
-const SortForm = require('../../../eMagPages/SortForm.js')
+const HomePage = require('../../../eMagSource/pageObjects/HomePage.js')
+const SearchBoxForm = require('../../../eMagSource/forms/SearchBoxForm.js')
+const FavoritesPage = require('../../../eMagSource/pageObjects/FavoritesPage.js')
+const Category = require('../../../eMagSource/pageObjects/CategoryPage.js')
+const Categories = require('../../../eMagSource/constants/Categories.js')
+const SortForm = require('../../../eMagSource/forms/SortForm.js')
 const { assert } = require('chai')
 const browser = require('../../../framework/Browser.js')
 const logger = require('../../../framework/logger.js')
 const allure = require('@wdio/allure-reporter')
-const ProductForm = require('../../../eMagPages/ProductForm.js')
-const FavoritesProductForm = require('../../../eMagPages/FavoritesProductForm.js')
-const Steps = require('../../../eMagPages/Steps.js')
+const ProductForm = require('../../../eMagSource/forms/ProductForm.js')
+const FavoritesProductForm = require('../../../eMagSource/forms/FavoritesProductForm.js')
+const Steps = require('../../../eMagSource/steps/Steps.js')
 
 describe('eMAG Tests e2e', () => {
   const homePage = new HomePage()
   const searchBoxForm = new SearchBoxForm()
-  const dronesPage = new Category('drones')
+  const dronesPage = new Category(Categories.drones)
   const favoritesPage = new FavoritesPage()
   const sortForm = new SortForm()
 
   it('Should correctly perform search on items and favorites page and icons should work as expected', async () => {
-    await browser.windowMaximize()
-
     await allure.step('Navigating to eMag home page', async () => {
       await browser.openUrl('https://www.emag.bg/')
     })
@@ -61,7 +60,7 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Verifying that the text inside the search box is the one sent', async () => {
-      assert.equal(await searchBoxForm.getTextInsideSearchBox(), 'dji mini 4 pro', 'Text inside search box should be "dji mini 4 pro" after sending it')
+      assert.equal(await searchBoxForm.getText(), 'dji mini 4 pro', 'Text inside search box should be "dji mini 4 pro" after sending it')
     })
 
     await allure.step('Removing text from search box using X button', async () => {
@@ -69,7 +68,7 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Verifying that search box is empty after clicking X button', async () => {
-      assert.equal(await searchBoxForm.getTextInsideSearchBox(), '', 'Search box should be empty after clicking X button')
+      assert.equal(await searchBoxForm.getText(), '', 'Search box should be empty after clicking X button')
     })
 
     await allure.step('Sending text to search box "dji mini 4 pro"', async () => {
@@ -77,7 +76,7 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Verifying that the text inside the search box is the one sent', async () => {
-      assert.equal(await searchBoxForm.getTextInsideSearchBox(), 'dji mini 4 pro', 'Text inside search box should be "dji mini 4 pro" after sending it')
+      assert.equal(await searchBoxForm.getText(), 'dji mini 4 pro', 'Text inside search box should be "dji mini 4 pro" after sending it')
     })
 
     await allure.step('Clicking the magnifier button', async () => {
@@ -88,8 +87,9 @@ describe('eMAG Tests e2e', () => {
       const header = await dronesPage.getPageHeaderText()
       const patternToFollow = /^\d+\s+резултата\s+.+\s+за\s+"[^"]+"$/
 
-      assert.isTrue(
-        patternToFollow.test(header),
+      assert.match(
+        header,
+        patternToFollow,
         `Header structure should follow this pattern "some_numbers резултата some_text за “search_string”" instead it was ${header}`,
       )
       assert.include(await dronesPage.getPageHeaderText(), 'dji mini 4 pro', 'Page header should contain "dji mini 4 pro"')
@@ -118,7 +118,7 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Verifying that the heart icon on header has the number 2 after adding the first two products to favourites', async () => {
-      assert.equal(await dronesPage.getNumberOnHeartIcon(), '2', 'Number on heart icon should be 2 after adding 2 items to favourites')
+      assert.equal(await homePage.getNumberOnHeartIcon(), '2', 'Number on heart icon should be 2 after adding 2 items to favourites')
     })
 
     logger.logStep('Storing price and title of the two products for later comparison')
@@ -129,7 +129,7 @@ describe('eMAG Tests e2e', () => {
     const secondProductPrice = await secondProduct.getProductPrice()
 
     await allure.step('Clicking on favorites menu item in header', async () => {
-      await dronesPage.clickHeartMenuItem()
+      await homePage.clickHeartMenuItem()
     })
 
     await logger.logStep('Initializing the first two products on the page')
@@ -137,8 +137,8 @@ describe('eMAG Tests e2e', () => {
     const secondFavoritesProduct = new FavoritesProductForm(2)
 
     await allure.step('Verifying that items from previous step are successfully added to favorites page with correct details', async () => {
-      //at the moment there seems to be an issue maybe a bug, when adding product sometimes the price differs and the test fails,
-      //i will attach a video of the issue inside Bugs-Recordings file
+      //at the moment there seems to be an issue, when adding product sometimes the price differs and the test fails,
+      //i will attach a video of the issue inside Bugs-Recordings file aswell as a screenshot
 
       const firstFavoritesProductTitle = await firstFavoritesProduct.getProductTitle()
       const firstFavoritesProductPrice = await firstFavoritesProduct.getProductPrice()
@@ -157,12 +157,12 @@ describe('eMAG Tests e2e', () => {
 
       assert.isTrue(
         firstFavoritesProductPrice === firstProductPrice || secondFavoritesProductPrice === firstProductPrice,
-        'product price should be the same as the drones page product price',
+        `First product price ${firstProductPrice} should match either the first favorite product price ${firstFavoritesProductPrice} or the second favorite product price ${secondFavoritesProductPrice}, but it did not.`,
       )
 
       assert.isTrue(
         firstFavoritesProductPrice === secondProductPrice || secondFavoritesProductPrice === secondProductPrice,
-        'product price should be the same as the drones page product price',
+        `First product price ${secondProductPrice} should match either the first favorite product price ${firstFavoritesProductPrice} or the second favorite product price ${secondFavoritesProductPrice}, but it did not.`,
       )
     })
 

@@ -1,9 +1,9 @@
-const HomePage = require('../../../eMagPages/HomePage.js')
-const SocialLinksForm = require('../../../eMagPages/SocialLinksForm.js')
+const HomePage = require('../../../eMagSource/pageObjects/HomePage.js')
+const SocialLinksForm = require('../../../eMagSource/forms/SocialLinksForm.js')
 const { assert } = require('chai')
 const browser = require('../../../framework/Browser.js')
 const allure = require('@wdio/allure-reporter')
-const YoutubeChannelPage = require('../../../eMagPages/YoutubeChannelPage.js')
+const YoutubeChannelPage = require('../../../eMagSource/pageObjects/YoutubeChannelPage.js')
 
 describe('eMAG Tests e2e', () => {
   const homePage = new HomePage()
@@ -11,7 +11,6 @@ describe('eMAG Tests e2e', () => {
   const youtubeChannelPage = new YoutubeChannelPage()
 
   it('Should correctly redirect to the correct social media links', async () => {
-    await browser.windowMaximize()
     let mainWindow
     let secondWindow
     let windowHandles

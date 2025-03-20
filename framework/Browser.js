@@ -98,7 +98,7 @@ class Browser {
     return text
   }
 
-  async windowSize(width, height) {
+  async setWindowSize(width, height) {
     logger.debug('Setting window size.')
     await browser.setWindowSize(width, height)
     logger.debug(`Set window size to ${width}x${height}.`)

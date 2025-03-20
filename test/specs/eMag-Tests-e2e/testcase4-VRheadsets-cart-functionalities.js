@@ -1,30 +1,29 @@
-const HomePage = require('../../../eMagPages/HomePage.js')
-const ProductPage = require('../../../eMagPages/ProductPage.js')
-const CartPage = require('../../../eMagPages/CartPage.js')
-const ModalForm = require('../../../eMagPages/ModalForm.js')
+const HomePage = require('../../../eMagSource/pageObjects/HomePage.js')
+const ProductPage = require('../../../eMagSource/pageObjects/ProductPage.js')
+const CartPage = require('../../../eMagSource/pageObjects/CartPage.js')
+const ProductModalForm = require('../../../eMagSource/forms/ProductModalForm.js')
 const { assert } = require('chai')
 const browser = require('../../../framework/Browser.js')
 const logger = require('../../../framework/logger.js')
 const allure = require('@wdio/allure-reporter')
-const Category = require('../../../eMagPages/CategoryPage.js')
-const PriceFilterForm = require('../../../eMagPages/FilterForms/PriceFilterForm.js')
-const SortForm = require('../../../eMagPages/SortForm.js')
-const ProductForm = require('../../../eMagPages/ProductForm.js')
-const CartProductForm = require('../../../eMagPages/CartProductForm.js')
-const Steps = require('../../../eMagPages/Steps.js')
+const Category = require('../../../eMagSource/pageObjects/CategoryPage.js')
+const Categories = require('../../../eMagSource/constants/Categories.js')
+const PriceFilterForm = require('../../../eMagSource/forms/filterForms/PriceFilterForm.js')
+const SortForm = require('../../../eMagSource/forms/SortForm.js')
+const ProductForm = require('../../../eMagSource/forms/ProductForm.js')
+const CartProductForm = require('../../../eMagSource/forms/CartProductForm.js')
+const Steps = require('../../../eMagSource/steps/Steps.js')
 
 describe('eMAG Tests e2e', () => {
   const homePage = new HomePage()
-  const vrHeadSetsPage = new Category('vrHeadSets')
+  const vrHeadSetsPage = new Category(Categories.vrHeadSets)
   const filterForm = new PriceFilterForm()
   const productPage = new ProductPage()
-  const modalForm = new ModalForm()
+  const productModalForm = new ProductModalForm()
   const cartPage = new CartPage()
   const sortForm = new SortForm()
 
   it('Should correctly filter prices and add products to cart aswell as increase the quantity', async () => {
-    await browser.windowMaximize()
-
     await allure.step('Navigating to eMag home page', async () => {
       await browser.openUrl('https://www.emag.bg/')
     })
@@ -41,7 +40,7 @@ describe('eMAG Tests e2e', () => {
     await allure.step('Navigating to gaming consoles section', async () => {
       await homePage.hoverOnCategoriesMenu()
       await vrHeadSetsPage.hoverOnCategoryLabel()
-      await new Category('gamingConsoles').clickOnItemButton()
+      await new Category(Categories.gamingConsoles).clickOnItemButton()
     })
 
     await allure.step('Dissmissing account Log In popup', async () => {
@@ -122,22 +121,26 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Verifying that the Modal Form is visible', async () => {
-      assert.isTrue(await modalForm.isVisible(), 'Modal Form should be visible after clicking add to cart button')
+      assert.isTrue(await productModalForm.isVisible(), 'Modal Form should be visible after clicking add to cart button')
     })
 
     await allure.step('Verifying that Modal Form title is "Продуктът e добавен в количката"', async () => {
-      assert.equal(await modalForm.getModalFormTitle(), 'Продуктът е добавен в количката', 'Modal Form title should be "Продуктът е добавен в количката"')
+      assert.equal(
+        await productModalForm.getProductModalFormTitle(),
+        'Продуктът е добавен в количката',
+        'Modal Form title should be "Продуктът е добавен в количката"',
+      )
     })
 
     await allure.step('Verifying that the price and product are correct by comparing them to the initial title and price', async () => {
-      const modalFormPrice = await Steps.getProductNumericValue(modalForm)
-      const modalFormTitle = await modalForm.getProductTitle()
-      assert.equal(productTitleAfterFilter, modalFormTitle, 'Title should be the same as the initial product title')
-      assert.equal(productPriceAfterFilter, modalFormPrice, 'Price should be the same as the initial product price')
+      const productModalFormPrice = await Steps.getProductNumericValue(productModalForm)
+      const productModalFormTitle = await productModalForm.getProductTitle()
+      assert.equal(productTitleAfterFilter, productModalFormTitle, 'Title should be the same as the initial product title')
+      assert.equal(productPriceAfterFilter, productModalFormPrice, 'Price should be the same as the initial product price')
     })
 
     await allure.step('Clicking on "See Cart" Button', async () => {
-      await modalForm.clickSeeCartButton()
+      await productModalForm.clickSeeCartButton()
     })
 
     await logger.logStep('Initializing product object inside cart page and getting price and title')
