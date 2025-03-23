@@ -1,5 +1,5 @@
-const BaseForm = require('../../framework/BaseForm.js')
-const Link = require('../../framework/elementWrappers/Link.js')
+const BaseForm = require('../../../framework/BaseForm.js')
+const Link = require('../../../framework/elementWrappers/Link.js')
 
 class SocialLinksForm extends BaseForm {
   constructor() {

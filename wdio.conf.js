@@ -26,7 +26,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: [['./test/specs/eMag-Tests-e2e/testcase5-search-and-favouritesTab-functionalities.js']],
+  specs: [['./test/specs/eMag-Tests-e2e/*.js']],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'

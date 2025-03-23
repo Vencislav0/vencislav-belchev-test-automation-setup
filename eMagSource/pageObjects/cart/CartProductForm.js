@@ -1,7 +1,7 @@
-const Button = require('../../framework/elementWrappers/Button.js')
-const Label = require('../../framework//elementWrappers/Label.js')
-const BaseForm = require('../../framework/BaseForm.js')
-const Timeouts = require('../../framework/timeouts.js')
+const Button = require('../../../framework/elementWrappers/Button.js')
+const Label = require('../../../framework/elementWrappers/Label.js')
+const BaseForm = require('../../../framework/BaseForm.js')
+const Timeouts = require('../../../framework/timeouts.js')
 
 class CartProductForm extends BaseForm {
   constructor(index) {
@@ -39,17 +39,13 @@ class CartProductForm extends BaseForm {
     )
   }
 
-  async getQntyButton() {
-    return this.increaseQntyButton
-  }
-
   async getQuantity() {
     return parseInt(await this.quantityLabel.getText())
   }
 
   async clickOnIncreaseQntyButton() {
     const initialPrice = await this.getProductPrice()
-    await (await this.getQntyButton()).click()
+    await this.increaseQntyButton.click()
     await browser.waitUntil(
       async () => {
         return (await this.getProductPrice()) !== initialPrice

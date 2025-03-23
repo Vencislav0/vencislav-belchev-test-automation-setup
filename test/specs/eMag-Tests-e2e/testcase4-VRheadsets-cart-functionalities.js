@@ -1,23 +1,24 @@
 const HomePage = require('../../../eMagSource/pageObjects/HomePage.js')
-const ProductPage = require('../../../eMagSource/pageObjects/ProductPage.js')
-const CartPage = require('../../../eMagSource/pageObjects/CartPage.js')
-const ProductModalForm = require('../../../eMagSource/forms/ProductModalForm.js')
+const ProductPage = require('../../../eMagSource/pageObjects/product/ProductPage.js')
+const CartPage = require('../../../eMagSource/pageObjects/cart/CartPage.js')
+const ProductModalForm = require('../../../eMagSource/pageObjects/cart/ProductModalForm.js')
 const { assert } = require('chai')
 const browser = require('../../../framework/Browser.js')
 const logger = require('../../../framework/logger.js')
 const allure = require('@wdio/allure-reporter')
-const Category = require('../../../eMagSource/pageObjects/CategoryPage.js')
+const CategoryPage = require('../../../eMagSource/pageObjects/CategoryPage.js')
 const Categories = require('../../../eMagSource/constants/Categories.js')
-const PriceFilterForm = require('../../../eMagSource/forms/filterForms/PriceFilterForm.js')
-const SortForm = require('../../../eMagSource/forms/SortForm.js')
-const ProductForm = require('../../../eMagSource/forms/ProductForm.js')
-const CartProductForm = require('../../../eMagSource/forms/CartProductForm.js')
+const Filters = require('../../../eMagSource/constants/Filters.js')
+const PriceFilterForm = require('../../../eMagSource/pageObjects/forms/filterForms/PriceFilterForm.js')
+const SortForm = require('../../../eMagSource/pageObjects/forms/SortForm.js')
+const ProductForm = require('../../../eMagSource/pageObjects/product/ProductForm.js')
+const CartProductForm = require('../../../eMagSource/pageObjects/cart/CartProductForm.js')
 const Steps = require('../../../eMagSource/steps/Steps.js')
 
 describe('eMAG Tests e2e', () => {
   const homePage = new HomePage()
-  const vrHeadSetsPage = new Category(Categories.vrHeadSets)
-  const filterForm = new PriceFilterForm()
+  const vrHeadSetsPage = new CategoryPage(Categories.vrHeadSets)
+  const filterForm = new PriceFilterForm(Filters.price)
   const productPage = new ProductPage()
   const productModalForm = new ProductModalForm()
   const cartPage = new CartPage()
@@ -40,11 +41,7 @@ describe('eMAG Tests e2e', () => {
     await allure.step('Navigating to gaming consoles section', async () => {
       await homePage.hoverOnCategoriesMenu()
       await vrHeadSetsPage.hoverOnCategoryLabel()
-      await new Category(Categories.gamingConsoles).clickOnItemButton()
-    })
-
-    await allure.step('Dissmissing account Log In popup', async () => {
-      await homePage.dissmissAccountLoginPopUpIfNeeded()
+      await new CategoryPage(Categories.gamingConsoles).clickOnItemButton()
     })
 
     await allure.step('Verifying that the browser tab contains "Гейминг конзоли"', async () => {
@@ -66,10 +63,6 @@ describe('eMAG Tests e2e', () => {
     let productTitleAfterFilter
     let initialProductPrice
 
-    await allure.step('Dissmissing account Log In popup', async () => {
-      await homePage.dissmissAccountLoginPopUpIfNeeded()
-    })
-
     await allure.step('Verifying that the section title contains "VR Gaming Очила"', async () => {
       assert.equal(await vrHeadSetsPage.getSectionTitleText(), 'VR Gaming Очила', 'Section title should be "VR Gaming Очила" after redirecting')
     })
@@ -79,8 +72,8 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Storing initial price of the first product', async () => {
-      const product = new ProductForm(1)
-      initialProductPrice = await Steps.getProductNumericValue(product)
+      const productPrice = await new ProductForm(1).getProductPrice()
+      initialProductPrice = await Steps.getProductNumericValue(productPrice)
     })
 
     await allure.step('Dragging the knob to the middle of the price range', async () => {
@@ -89,9 +82,9 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Storing product price after price filter', async () => {
-      const product = new ProductForm(1)
+      const productPrice = await new ProductForm(1).getProductPrice()
 
-      productPriceAfterFilter = await Steps.getProductNumericValue(product)
+      productPriceAfterFilter = await Steps.getProductNumericValue(productPrice)
     })
 
     await allure.step('Storing product title after price filter', async () => {
@@ -105,12 +98,13 @@ describe('eMAG Tests e2e', () => {
       assert.isTrue(await filterForm.isPriceFrameCheckBoxChecked(), 'Price frame checkbox should be checked after price filtering')
     })
 
-    await allure.step('Clicking the title of the first product on the page', async () => {
-      await vrHeadSetsPage.clickProduct(1)
+    await allure.step('Clicking the first product on the page', async () => {
+      const firstProduct = new ProductForm(1)
+      await firstProduct.clickProduct()
     })
 
     await allure.step('Verifying that the product title and price on VR headset page is the same as in the product page', async () => {
-      const productPagePrice = await Steps.getProductNumericValue(productPage)
+      const productPagePrice = await Steps.getProductNumericValue(await productPage.getProductPrice())
       const productPageTitle = await productPage.getProductTitle()
       assert.equal(productTitleAfterFilter, productPageTitle, 'Product title should be the same as the product title on the vr headset page')
       assert.equal(productPriceAfterFilter, productPagePrice, 'Product price should be the same as the product title on the vr headset page')
@@ -133,7 +127,7 @@ describe('eMAG Tests e2e', () => {
     })
 
     await allure.step('Verifying that the price and product are correct by comparing them to the initial title and price', async () => {
-      const productModalFormPrice = await Steps.getProductNumericValue(productModalForm)
+      const productModalFormPrice = await Steps.getProductNumericValue(await productModalForm.getProductPrice())
       const productModalFormTitle = await productModalForm.getProductTitle()
       assert.equal(productTitleAfterFilter, productModalFormTitle, 'Title should be the same as the initial product title')
       assert.equal(productPriceAfterFilter, productModalFormPrice, 'Price should be the same as the initial product price')
@@ -146,7 +140,7 @@ describe('eMAG Tests e2e', () => {
     await logger.logStep('Initializing product object inside cart page and getting price and title')
     const cartProduct = new CartProductForm(1)
 
-    const cartProductPrice = await Steps.getProductNumericValue(cartProduct)
+    const cartProductPrice = await Steps.getProductNumericValue(await cartProduct.getProductPrice())
     const cartProductTitle = await cartProduct.getProductTitle()
 
     await allure.step('Verifying that the correct product is displayed and page header is "Количка за пазаруване"', async () => {
@@ -167,7 +161,7 @@ describe('eMAG Tests e2e', () => {
 
     await allure.step('Verifying that the quantity and price are correct after increasing by 1', async () => {
       const cartProduct = new CartProductForm(1)
-      const productPriceAfterQntyIncrease = await Steps.getProductNumericValue(cartProduct)
+      const productPriceAfterQntyIncrease = await Steps.getProductNumericValue(await cartProduct.getProductPrice())
 
       assert.equal(await cartProduct.getQuantity(), initialQuantity + 1, 'Quantity should be increased by 1 after clicking + once')
       assert.equal(cartProductPrice * 2, productPriceAfterQntyIncrease, 'Price should be double after clicking on + once')

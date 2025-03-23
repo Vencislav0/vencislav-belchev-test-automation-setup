@@ -1,5 +1,5 @@
 const HomePage = require('../../../eMagSource/pageObjects/HomePage.js')
-const SocialLinksForm = require('../../../eMagSource/forms/SocialLinksForm.js')
+const SocialLinksForm = require('../../../eMagSource/pageObjects/forms/SocialLinksForm.js')
 const { assert } = require('chai')
 const browser = require('../../../framework/Browser.js')
 const allure = require('@wdio/allure-reporter')
@@ -59,10 +59,6 @@ describe('eMAG Tests e2e', () => {
 
     await allure.step('Switching to main window handle', async () => {
       await browser.switchWindow(mainWindow)
-    })
-
-    await allure.step('Dismissing account log in popup', async () => {
-      await homePage.dissmissAccountLoginPopUpIfNeeded()
     })
 
     await allure.step('Clicking on Youtube link', async () => {

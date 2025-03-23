@@ -1,7 +1,7 @@
-const Label = require('../../framework//elementWrappers/Label.js')
-const BaseForm = require('../../framework/BaseForm.js')
-const Dropdown = require('../../framework/elementWrappers/Dropdown.js')
-const Timeouts = require('../../framework/timeouts.js')
+const Label = require('../../../framework/elementWrappers/Label.js')
+const BaseForm = require('../../../framework/BaseForm.js')
+const Dropdown = require('../../../framework/elementWrappers/Dropdown.js')
+const Timeouts = require('../../../framework/timeouts.js')
 
 class SortForm extends BaseForm {
   constructor() {

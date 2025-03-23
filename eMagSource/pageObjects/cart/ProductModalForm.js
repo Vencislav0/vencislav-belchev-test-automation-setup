@@ -1,6 +1,6 @@
-const Button = require('../../framework/elementWrappers/Button.js')
-const Label = require('../../framework/elementWrappers/Label.js')
-const BaseForm = require('../../framework/BaseForm.js')
+const Button = require('../../../framework/elementWrappers/Button.js')
+const Label = require('../../../framework/elementWrappers/Label.js')
+const BaseForm = require('../../../framework/BaseForm.js')
 
 class ProductModalForm extends BaseForm {
   constructor() {

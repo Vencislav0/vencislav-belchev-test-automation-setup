@@ -2,6 +2,8 @@ const Button = require('../../framework/elementWrappers/Button.js')
 const BaseForm = require('../../framework/BaseForm.js')
 const Dropdown = require('../../framework/elementWrappers/Dropdown.js')
 const Label = require('../../framework/elementWrappers/Label.js')
+const Timeouts = require('../../framework/timeouts.js')
+const logger = require('../../framework/logger.js')
 
 class HomePage extends BaseForm {
   constructor() {
@@ -26,14 +28,30 @@ class HomePage extends BaseForm {
   }
 
   async acceptCookiesIfNeeded() {
-    if (await this.cookiesAcceptButton.isDisplayed()) {
+    try {
+      await browser.waitUntil(
+        async () => {
+          return await this.cookiesAcceptButton.isDisplayed()
+        },
+        { timeout: Timeouts.EXTRA_SHORT_TIMEOUT, timeoutMsg: 'Couldnt load cookies accept form on time' },
+      )
       await this.cookiesAcceptButton.click()
+    } catch (er) {
+      logger.warn('Failed to find or accept cookies form within the timeout period, proceding without accepting cookies')
     }
   }
 
   async dissmissAccountLoginPopUpIfNeeded() {
-    if (await this.logIntoAccountDissmissButton.isDisplayed()) {
+    try {
+      await browser.waitUntil(
+        async () => {
+          return await this.logIntoAccountDissmissButton.isDisplayed()
+        },
+        { timeout: Timeouts.EXTRA_SHORT_TIMEOUT, timeoutMsg: 'Couldnt load cookies accept form on time' },
+      )
       await this.logIntoAccountDissmissButton.click()
+    } catch (er) {
+      logger.warn('Failed to find or dismiss account login form within the timeout period, proceding without dismissing login pop up')
     }
   }
 }

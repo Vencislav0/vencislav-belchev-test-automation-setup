@@ -34,7 +34,7 @@ const Categories = {
   },
 
   dummyCategory: {
-    categoryName: 'Dummy Category',
+    categoryName: 'Dummy CategoryPage',
   },
 }
 

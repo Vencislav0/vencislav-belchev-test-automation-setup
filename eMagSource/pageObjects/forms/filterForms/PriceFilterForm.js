@@ -1,13 +1,17 @@
-const Label = require('../../../framework//elementWrappers/Label.js')
-const FilterForm = require('./BaseFilterForm.js')
-const CheckBox = require('../../../framework/elementWrappers/Checkbox.js')
+const Label = require('../../../../framework//elementWrappers/Label.js')
+const FilterForm = require('./FilterForm.js')
+const CheckBox = require('../../../../framework/elementWrappers/Checkbox.js')
 
 class PriceFilterForm extends FilterForm {
-  constructor() {
-    super('//div[@class="filter filter-default js-filter" and @data-name="Цена"]', 'Price Filter Locator')
+  constructor(filter) {
+    if (!filter) {
+      throw new Error('category not found, or still not implemented')
+    }
+    const filterLocator = `//div[@data-filter-id="${filter.filterID}"]`
+    super(filterLocator, 'Price Filter Locator')
     this.priceFrameCheckBox = new CheckBox('//a[@data-filter-id="6412" and text()="Ценова рамка"]', 'Price Frame CheckBox')
-    this.leftKnob = new Label('//a[@class="knob left"]', 'Left Knob')
-    this.slider = new Label('//div[@class="range-bar"]', 'Prices Slider')
+    this.leftKnob = new Label(`${filterLocator}//a[@class="knob left"]`, 'Left Knob')
+    this.slider = new Label(`${filterLocator}//div[@class="range-bar"]`, 'Prices Slider')
   }
 
   async moveLeftKnob(moveAmount) {

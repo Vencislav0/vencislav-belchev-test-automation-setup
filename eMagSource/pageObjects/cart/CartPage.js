@@ -1,9 +1,9 @@
-const Label = require('../../framework//elementWrappers/Label.js')
-const BaseForm = require('../../framework/BaseForm.js')
+const Label = require('../../../framework/elementWrappers/Label.js')
+const BaseForm = require('../../../framework/BaseForm.js')
 
 class CartPage extends BaseForm {
   constructor() {
-    super('//div[@class="main-container"]', 'Cart Page Main Container')
+    super('//div[@id="cart-products"]', 'Cart Products Container Locator')
     this.cartPageHeader = new Label('//h1', 'Cart Page Header')
     this.emptyCartMessage = new Label('//p[@class="mb-0"]', 'Empty Cart Message')
   }

@@ -1,14 +1,13 @@
 const Button = require('../../framework/elementWrappers/Button.js')
 const Label = require('../../framework//elementWrappers/Label.js')
 const BaseForm = require('../../framework/BaseForm.js')
-const ProductForm = require('../forms/ProductForm.js')
 
-class Category extends BaseForm {
+class CategoryPage extends BaseForm {
   constructor(category) {
     if (!category) {
-      throw new Error('Invalid category or still not implemented')
+      throw new Error('category not found, or still not implemented')
     }
-    super('//div[@class="page-container"]', `${category.categoryName} Page Container`)
+    super('//div[@class="page-container"]', `${category.categoryName} Page Container Locator`)
     this.sectionTitle = new Label('//h1', 'Section Title')
     this.categoryLabel = new Label(`//li[@data-id="${category.categoryID}"]`, `${category.categoryName} Navigation Locator`)
     this.itemButton = new Button(`//a[@data-id="${category.itemID}"]`, `${category.categoryName} Navigation Button`)
@@ -16,10 +15,11 @@ class Category extends BaseForm {
     this.nextPageButton = new Button('//span[text()="Напред"]', 'Navigation Button To Next Page')
   }
 
-  async clickProduct(index) {
-    const product = new ProductForm(index)
+  async getFormsCount() {
+    const productForm = new Label('//div[@id="card_grid"]//div[@class="card-v2"]', 'Locator For Forms Inside Categories')
+    const productsArray = await productForm._getElements()
 
-    await product.formElement.click()
+    return productsArray.length
   }
 
   async clickNextPageButton() {
@@ -43,4 +43,4 @@ class Category extends BaseForm {
   }
 }
 
-module.exports = Category
+module.exports = CategoryPage

@@ -1,8 +1,8 @@
-const Button = require('../../framework/elementWrappers/Button.js')
-const Label = require('../../framework//elementWrappers/Label.js')
-const BaseForm = require('../../framework/BaseForm.js')
-const TextBox = require('../../framework/elementWrappers/TextBox.js')
-const Timeouts = require('../../framework/timeouts.js')
+const Button = require('../../../framework/elementWrappers/Button.js')
+const Label = require('../../../framework//elementWrappers/Label.js')
+const BaseForm = require('../../../framework/BaseForm.js')
+const TextBox = require('../../../framework/elementWrappers/TextBox.js')
+const Timeouts = require('../../../framework/timeouts.js')
 
 class SearchBoxForm extends BaseForm {
   constructor() {

@@ -1,13 +1,16 @@
 const allure = require('@wdio/allure-reporter')
-const ManufacturerFilterForm = require('../../../../eMagSource/forms/filterForms/ManufacturerFilterForm.js')
+const PopUpFilterForm = require('../../../../eMagSource/pageObjects/forms/filterForms/PopUpFilterForm.js')
+const FilterForm = require('../../../../eMagSource/pageObjects/forms/filterForms/FilterForm.js')
+const Filters = require('../../../../eMagSource/constants/Filters.js')
 const Steps = require('../../../../eMagSource/steps/Steps.js')
-const Category = require('../../../../eMagSource/pageObjects/CategoryPage.js')
+const CategoryPage = require('../../../../eMagSource/pageObjects/CategoryPage.js')
 
 async function testProductSortingAndFiltering(categoryObject, brandObject) {
-  const categoryPage = new Category(categoryObject)
-  const filterForm = new ManufacturerFilterForm()
+  const categoryPage = new CategoryPage(categoryObject)
+  const popupfilterForm = new PopUpFilterForm(Filters.manufacturer)
+  const filterForm = new FilterForm(Filters.manufacturer)
 
-  await Steps.filterProductsByBrand(brandObject.brandName, filterForm)
+  await Steps.filterProductsByBrand(brandObject.brandName, filterForm, popupfilterForm)
 
   await allure.step(`Verifying all product titles contain ${brandObject.brandName} on the first page`, async () => {
     await Steps.assertProductTitlesInclude(brandObject.brandName, brandObject.brandLocalized)
