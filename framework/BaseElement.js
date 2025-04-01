@@ -16,6 +16,11 @@ class BaseElement {
     return $$(this.selector)
   }
 
+  async scrollIntoView() {
+    logger.debug(`Scrolling to ${this.name}`)
+    await (await this._getElement()).scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   async moveToElement() {
     logger.debug(`Hovering mouse on element ${this.name}`)
     await (await this._getElement()).moveTo()
@@ -56,6 +61,13 @@ class BaseElement {
     const isDisplayed = await (await this._getElement()).isDisplayed()
     logger.debug(`${this.name} displayed: ${isDisplayed}.`)
     return isDisplayed
+  }
+
+  async isExisting() {
+    logger.debug(`Checking if ${this.name} is displayed`)
+    const isExisting = await (await this._getElement()).isExisting()
+    logger.debug(`${this.name} displayed: ${isExisting}.`)
+    return isExisting
   }
 
   async sendText(text) {

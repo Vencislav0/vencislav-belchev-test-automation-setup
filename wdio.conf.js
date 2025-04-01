@@ -25,7 +25,7 @@ exports.config = {
   // The path of the spec files will be resolved relative from the directory of
   // of the config file unless it's absolute.
   //
-  specs: [['./test/specs/eMag-Tests-e2e/testcase6-social-media-links.js']],
+  specs: [['./test/specs/*.js']],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -60,9 +60,17 @@ exports.config = {
         browserName: 'chrome',
         'wdio:enforceWebDriverClassic': true,
         'goog:chromeOptions': {
+          args: [
+            //'--headless',
+            '--disable-gpu',
+            '--no-sandbox',
+            '--disable-dev-shm-usage',
+          ],
           prefs: {
             'download.default_directory': path.resolve(__dirname, 'downloads'),
             'download.prompt_for_download': false,
+            'safebrowsing.enabled': true,
+            'safebrowsing.protection_level': 1,
             'plugins.always_open_pdf_externally': true,
           },
         },
@@ -72,6 +80,12 @@ exports.config = {
         'wdio:enforceWebDriverClassic': true,
         'moz:firefoxOptions': {
           binary: 'C:\\Program Files\\Mozilla Firefox\\firefox.exe',
+          args: [
+            //'--headless',
+            '--disable-gpu',
+            '--no-sandbox',
+            '--disable-dev-shm-usage',
+          ],
           prefs: {
             'download.default_directory': path.resolve(__dirname, 'downloads'),
             'download.prompt_for_download': false,

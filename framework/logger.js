@@ -44,7 +44,7 @@ class Logger {
   }
 
   async logStep(stepName) {
-    step(stepName, () => {
+    await step(stepName, () => {
       this.logger.info(`Step: ${stepName}`)
     })
   }
