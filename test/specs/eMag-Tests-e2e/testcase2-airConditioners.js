@@ -8,7 +8,7 @@ const Brands = require('../../../eMagSource/constants/Brands.js')
 describe('eMAG Tests e2e', async () => {
   const homePage = new HomePage()
   it(`Should correctly sort prices and display relevant search results for ${Categories.airConditioners.categoryName} section`, async () => {
-    await Steps.navigateToCategory(Categories.airConditioners, homePage)
+    await Steps.navigateToCategory(Categories.airConditioners)
     await allure.step('Accept Cookies and close Log In popup if needed', async () => {
       await homePage.acceptCookiesIfNeeded()
       await homePage.dissmissAccountLoginPopUpIfNeeded()

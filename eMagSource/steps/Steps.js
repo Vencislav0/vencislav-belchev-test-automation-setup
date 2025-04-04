@@ -130,7 +130,7 @@ class Steps {
     })
   }
 
-  async navigateToCategory(categoryObject, homePageInstance) {
+  async navigateToCategory(categoryObject) {    
     const categoryInstance = new CategoryPage(categoryObject)
     await allure.step('Navigating to eMAG home page', async () => {
       await Browser.openUrl('https://www.emag.bg/')
@@ -141,7 +141,7 @@ class Steps {
     })
 
     await allure.step(`Navigating to ${categoryObject.categoryName} page`, async () => {
-      await homePageInstance.hoverOnCategoriesMenu()
+      await homePage.hoverOnCategoriesMenu()
       await categoryInstance.hoverOnCategoryLabel()
       await categoryInstance.clickOnItemButton()
     })
