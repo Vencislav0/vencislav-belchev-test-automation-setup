@@ -25,10 +25,6 @@ describe('eMAG Tests e2e', () => {
   const sortForm = new SortForm()
 
   it('Should correctly filter prices and add products to cart aswell as increase the quantity', async () => {
-    await allure.step('Navigating to eMag home page', async () => {
-      await browser.openUrl('https://www.emag.bg/')
-    })
-
     await allure.step('Accept Cookies and close Log In popup if needed', async () => {
       await homePage.acceptCookiesIfNeeded()
       await homePage.dissmissAccountLoginPopUpIfNeeded()

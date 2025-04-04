@@ -33,8 +33,8 @@ function setLogFile(filePath, logger) {
   logger.initLogger(logFile)
 }
 
-async function failingStep(message, error) {
-  allure.startStep(message)
-  assert.fail(error, error, error)
+async function failingStep() {
+  allure.startStep('Test FAILED')
+  allure.endStep('failed')
 }
 module.exports = { attachLogsToAllure, setLogFile, failingStep }

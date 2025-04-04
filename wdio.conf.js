@@ -256,6 +256,7 @@ exports.config = {
    * Function to be executed before a test (in Mocha/Jasmine) starts.
    */
   beforeTest: async function (test) {
+    await Browser.openUrl('https://www.emag.bg/')
     await Browser.setWindowSize(1920, 1080)
     logger.logStep(`Running test case: ${test.title}. From suite: ${test.parent}`)
     setLogFile(`${test.parent}_${test.title}.log`, logger)
@@ -273,10 +274,9 @@ exports.config = {
   afterTest: async function (test, context, { error }) {
     if (error) {
       await browser.takeScreenshot()
-      attachLogsToAllure(logger)
-      await failingStep('Test FAILED', error.message)
+      await failingStep()
     } else {
-      logger.logStep('Test PASSED')
+      await logger.logStep('Test PASSED')
     }
 
     attachLogsToAllure(logger)

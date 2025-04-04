@@ -16,10 +16,6 @@ describe('eMAG Tests e2e', () => {
     let windowHandles
     let tabsCount
 
-    await allure.step('Navigating to eMag home page', async () => {
-      await browser.openUrl('https://www.emag.bg/')
-    })
-
     await allure.step('Accept Cookies and close Log In popup if needed', async () => {
       await homePage.acceptCookiesIfNeeded()
       await homePage.dissmissAccountLoginPopUpIfNeeded()

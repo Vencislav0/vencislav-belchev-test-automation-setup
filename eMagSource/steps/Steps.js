@@ -130,11 +130,8 @@ class Steps {
     })
   }
 
-  async navigateToCategory(categoryObject) {    
+  async navigateToCategory(categoryObject) {
     const categoryInstance = new CategoryPage(categoryObject)
-    await allure.step('Navigating to eMAG home page', async () => {
-      await Browser.openUrl('https://www.emag.bg/')
-    })
 
     await allure.step('Verifying tab title is as expected', async () => {
       assert.equal(await Browser.getTitle(), 'eMAG.bg - Широка гама продукти', 'Window title should be "eMAG.bg - Широка гама продукти" for home page')
