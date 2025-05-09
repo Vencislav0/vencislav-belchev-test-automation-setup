@@ -3,17 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nikolai-sokolov/test-automation-setup.git"
   },
   "scripts": {
     "prepare": "husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks && git config --unset core.hooksPath",
-    "lint-prettify": "eslint . --fix && prettier --write ."
+    "lint-prettify": "eslint . --fix && prettier --write .",
+    "test": "rimraf allure-results && rimraf test-results && npx playwright test",
+    "allure-report": "allure generate allure-results --clean -o allure-report && allure open"
   },
   "dependencies": {
+    "chai": "^5.2.0",
     "dotenv": "^16.4.1",
-    "esm": "^3.2.25"
+    "esm": "^3.2.25",
+    "log4js": "^6.9.1",
+    "rimraf": "^5.0.10"
   },
   "optionalDependencies": {
     "eslint": "^8.56.0",
@@ -28,5 +34,14 @@
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "shx": "^0.3.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@types/chai": "^5.2.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.14.1",
+    "@typescript-eslint/eslint-plugin": "^8.31.0",
+    "@typescript-eslint/parser": "^8.31.0",
+    "allure-playwright": "^3.2.1"
   }
 }

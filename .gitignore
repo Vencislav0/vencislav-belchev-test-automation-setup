@@ -135,3 +135,8 @@ allure-results/
 # Ignore log4js log directory
 logs/
 
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
