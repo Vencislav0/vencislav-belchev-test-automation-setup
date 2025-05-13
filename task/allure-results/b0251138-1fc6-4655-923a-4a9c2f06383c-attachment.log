@@ -1,0 +1,17 @@
+19:38:40.296 INFO  [main] - ==== STARTING TEST: shouldDisplayAllElements ====
+19:38:41.442 DEBUG [main] - Checking visability for element: Header Label
+19:38:41.467 DEBUG [main] - Header Label Visability: true
+19:38:41.468 DEBUG [main] - Getting Text from element: Header Label
+19:38:41.494 DEBUG [main] - Header Label Text: Swag Labs
+19:38:41.495 DEBUG [main] - Checking visability for element: Username Textbox
+19:38:41.512 DEBUG [main] - Username Textbox Visability: true
+19:38:41.512 DEBUG [main] - Checking visability for element: Password Textbox
+19:38:41.528 DEBUG [main] - Password Textbox Visability: true
+19:38:41.528 DEBUG [main] - Checking visability for element: Login Button
+19:38:41.546 DEBUG [main] - Login Button Visability: true
+19:38:41.546 DEBUG [main] - Checking if Login Button is enabled
+19:38:41.562 DEBUG [main] - Element Login Button enabled: true
+19:38:41.563 DEBUG [main] - Checking visability for element: Usernames Credentials Block
+19:38:41.577 DEBUG [main] - Usernames Credentials Block Visability: true
+19:38:41.577 DEBUG [main] - Checking visability for element: Password Credentials Block
+19:38:41.592 DEBUG [main] - Password Credentials Block Visability: true

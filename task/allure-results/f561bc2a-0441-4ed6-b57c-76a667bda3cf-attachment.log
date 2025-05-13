@@ -1,0 +1,16 @@
+19:38:37.628 INFO  [main] - ==== STARTING TEST: shouldDisplayValidCredentialsAndPlaceholders ====
+19:38:39.881 DEBUG [main] - Getting Text from element: Usernames Credentials Block
+19:38:40.028 DEBUG [main] - Usernames Credentials Block Text: Accepted usernames are:
+standard_user
+locked_out_user
+problem_user
+performance_glitch_user
+error_user
+visual_user
+19:38:40.028 DEBUG [main] - Getting Text from element: Password Credentials Block
+19:38:40.048 DEBUG [main] - Password Credentials Block Text: Password for all users:
+secret_sauce
+19:38:40.052 DEBUG [main] - Getting placeholder attribute from element: Username Textbox
+19:38:40.077 DEBUG [main] - Getting placeholder attribute from element: Password Textbox
+19:38:40.095 DEBUG [main] - Getting value attribute from element: Login Button
+19:38:40.113 DEBUG [main] - Getting background-color CSS value from element: Login Button

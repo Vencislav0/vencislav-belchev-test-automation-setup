@@ -1,0 +1,15 @@
+19:38:41.716 INFO  [main] - ==== STARTING TEST: shouldDisplayCorrectErrorMessageAndErrorIcons ====
+19:38:42.867 DEBUG [main] - Clicking on element: Login Button
+19:38:43.006 DEBUG [main] - Checking visability for element: Error Message
+19:38:43.023 DEBUG [main] - Error Message Visability: true
+19:38:43.024 DEBUG [main] - Checking visability for element: Username Error Icon
+19:38:43.038 DEBUG [main] - Username Error Icon Visability: true
+19:38:43.038 DEBUG [main] - Checking visability for element: Password Error Icon
+19:38:43.052 DEBUG [main] - Password Error Icon Visability: true
+19:38:43.053 DEBUG [main] - Clicking on element: Error X Button
+19:38:43.113 DEBUG [main] - Checking visability for element: Error Message
+19:38:43.128 DEBUG [main] - Error Message Visability: false
+19:38:43.128 DEBUG [main] - Checking visability for element: Username Error Icon
+19:38:43.137 DEBUG [main] - Username Error Icon Visability: false
+19:38:43.138 DEBUG [main] - Checking visability for element: Password Error Icon
+19:38:43.145 DEBUG [main] - Password Error Icon Visability: false

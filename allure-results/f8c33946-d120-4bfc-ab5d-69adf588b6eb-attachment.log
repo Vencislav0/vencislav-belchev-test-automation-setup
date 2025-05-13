@@ -1,0 +1,6 @@
+19:39:19.415 INFO  [main] - ==== STARTING TEST: shouldLoginWithValidCredentials ====
+19:39:20.566 DEBUG [main] - Sending text "performance_glitch_user" to element: Username Textbox
+19:39:20.720 DEBUG [main] - Sending text "secret_sauce" to element: Password Textbox
+19:39:20.808 DEBUG [main] - Clicking on element: Login Button
+19:39:25.902 DEBUG [main] - Checking visability for element: Header Title
+19:39:25.916 DEBUG [main] - Header Title Visability: true

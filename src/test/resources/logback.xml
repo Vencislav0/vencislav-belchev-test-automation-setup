@@ -1,0 +1,31 @@
+<configuration>
+    <property name="LOG_DIR" value="logs"/>
+
+    <!-- Console Appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_DIR}/default.log</file> <!-- Default log file, will be changed dynamically -->
+        <append>false</append>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root Logger -->
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+
+    <logger name="com.codeborne.selenide" level="WARN"/>
+    <logger name="org.openqa.selenium" level="WARN"/>
+    <logger name="c.c.s" level="WARN"/>
+
+    <!-- Logger specific to your framework classes -->
+</configuration>
