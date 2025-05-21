@@ -69,9 +69,15 @@ class Steps {
         assert.include(await page.title(), 'Широка гама продукти', 'page title should be eMAG.bg  - Широка гама продукти')
         break
       } catch (error) {
+
+        if(i === retries){
+          logger.warn("Title check failed after 3 attempts.")
+          throw error
+        }
         logger.warn("Title check failed retrying.. ")
         logger.warn(`Attempt: ${i}`)
-        continue
+        
+        await new Promise(res => setTimeout(res, 1000))
       }
       }
       
