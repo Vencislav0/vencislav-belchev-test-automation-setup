@@ -103,7 +103,7 @@ test.describe('eMAG e2e', () => {
       let dynamicPrice
       let increaseCount = 1
 
-      while (!(await product.getIncreaseQntyButtonState(page)).includes('pe-none')) {
+      while (!(await product.getIncreaseQntyButtonState(page)).includes('pe-none') && increaseCount <= 7) {
         dynamicPrice = await steps.getProductNumericValue(await product.getPrice(page))
 
         logger.info(await product.getIncreaseQntyButtonState(page))

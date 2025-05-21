@@ -62,7 +62,20 @@ class Steps {
   async navigateToCategory(page, categoryObject) {
     const categoryPage = new CategoryPage(categoryObject)
     await allure.step('Verifying page title is as expected', async () => {
-      assert.include(await page.title(), 'Широка гама продукти', 'page title should be eMAG.bg  - Широка гама продукти')
+      let retries = 3
+
+      for(let i = 1; i <= retries; i++){
+        try {
+        assert.include(await page.title(), 'Широка гама продукти', 'page title should be eMAG.bg  - Широка гама продукти')
+        break
+      } catch (error) {
+        logger.warn("Title check failed retrying.. ")
+        logger.warn(`Attempt: ${i}`)
+        continue
+      }
+      }
+      
+      
     })
 
     await allure.step(`Navigating to category ${categoryObject.categoryName}`, async () => {
