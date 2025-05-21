@@ -64,18 +64,18 @@ class Steps {
     await allure.step('Verifying page title is as expected', async () => {
       let retries = 3
 
-      for(let i = 1; i <= retries; i++){
+      for(let i = 0; i <= retries; i++){
         try {
         assert.include(await page.title(), 'Широка гама продукти', 'page title should be eMAG.bg  - Широка гама продукти')
         break
       } catch (error) {
 
         if(i === retries){
-          logger.warn(`Title check failed after {retries} attempts.`)
+          logger.warn(`Title check failed after ${retries} attempts.`)
           throw error
         }
         logger.warn("Title check failed retrying.. ")
-        logger.warn(`Attempt: ${i}`)
+        logger.warn(`Attempt: ${i + 1}`)
         
         await new Promise(res => setTimeout(res, 1000))
       }
