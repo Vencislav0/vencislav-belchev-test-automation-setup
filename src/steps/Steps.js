@@ -71,7 +71,7 @@ class Steps {
       } catch (error) {
 
         if(i === retries){
-          logger.warn("Title check failed after 3 attempts.")
+          logger.warn(`Title check failed after {retries} attempts.`)
           throw error
         }
         logger.warn("Title check failed retrying.. ")
