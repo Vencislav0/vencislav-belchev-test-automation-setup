@@ -25,11 +25,11 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Playwright tests
-      run: npm run test
+      run: npx playwright test
 
     - name: Generate Allure report
       if: always()
-      run: npx playwright test
+      run: npm run allure:generate
 
     - name: Check Allure report directory
       if: always()
