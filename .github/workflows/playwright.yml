@@ -28,14 +28,17 @@ jobs:
       run: npm run test
 
     - name: Generate Allure report
+      if: always()
       run: npx playwright test
 
     - name: Check Allure report directory
+      if: always()
       run: |
         ls -la
         ls -la ./allure-report || echo "Report directory not found"
 
     - name: Upload Allure report as artifact
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: allure-report
