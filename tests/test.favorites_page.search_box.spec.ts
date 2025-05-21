@@ -19,7 +19,7 @@ test.describe('eMAG e2e', () => {
     const favoritesPage = new FavoritesPage()
     test('Should correctly search and display expected elements, should correctly favorite products and add them to favorites page then delete them', async ({page}) => {
         await allure.step('Verifying page title is as expected', async () => {
-              assert.include(await page.title(), 'Широка гама продукти', 'page title should be eMAG.bg  - Широка гама продукти')
+              await steps.retryOnPageFailAndCheckTitle(page)
         })
 
         await allure.step('Clicking on search box and verifying expected elements and placeholder are displayed', async () => {

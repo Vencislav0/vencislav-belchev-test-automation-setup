@@ -1,26 +1,39 @@
 name: Playwright Tests
+
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
+
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+
     - name: Install dependencies
       run: npm ci
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+
     - name: Run Playwright tests
       run: npm run test
+
     - name: Generate Allure report
-      run: npm run allure:generate
+      run: npx playwright test
+
+    - name: Check Allure report directory
+      run: |
+        ls -la
+        ls -la ./allure-report || echo "Report directory not found"
 
     - name: Upload Allure report as artifact
       uses: actions/upload-artifact@v4

@@ -14,7 +14,7 @@ test.describe('eMAG e2e', () => {
     const youtubeChannelPage = new YoutubeChannelPage()  
     test('Should correctly redirect to the correct social media links', async ({page, context}) => {
         await allure.step('Verifying page title is as expected', async () => {
-        assert.include(await page.title(), 'Широка гама продукти', 'page title should be eMAG.bg  - Широка гама продукти')
+        await steps.retryOnPageFailAndCheckTitle(page)
         await homePage.acceptCookiesIfNeeded(page)
         await homePage.dismissAccountLoginIfNeeded(page)
         })

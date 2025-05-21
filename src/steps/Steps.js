@@ -59,10 +59,8 @@ class Steps {
     return numericValue
   }
 
-  async navigateToCategory(page, categoryObject) {
-    const categoryPage = new CategoryPage(categoryObject)
-    await allure.step('Verifying page title is as expected', async () => {
-      let retries = 3
+  async retryOnPageFailAndCheckTitle(page){
+    let retries = 3
 
       for(let i = 0; i <= retries; i++){
         try {
@@ -75,13 +73,19 @@ class Steps {
           throw error
         }
         logger.warn("Title check failed retrying.. ")
-        logger.warn(`Attempt: ${i + 1}`)
-        
+        logger.warn(`Attempt: ${i + 1}`)       
         await new Promise(res => setTimeout(res, 1000))
+        await page.goto('https://www.emag.bg/')
       }
       }
-      
-      
+  }
+
+  async navigateToCategory(page, categoryObject) {
+    const categoryPage = new CategoryPage(categoryObject)
+    await allure.step('Verifying page title is as expected', async () => {
+      let retries = 3
+      await this.retryOnPageFailAndCheckTitle(page)
+            
     })
 
     await allure.step(`Navigating to category ${categoryObject.categoryName}`, async () => {
