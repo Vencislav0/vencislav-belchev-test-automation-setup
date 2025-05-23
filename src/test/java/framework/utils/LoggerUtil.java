@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 
 public class LoggerUtil {
 
-    // A static logger instance for centralized logging
+    
     private static final Logger logger = LoggerFactory.getLogger(LoggerUtil.class);
 
-    // Private constructor to prevent instantiation
+    
     private LoggerUtil() {}
 
-    // Log methods to be used across the framework
+    
 
     public static void info(String message) {
         logger.info(message);
