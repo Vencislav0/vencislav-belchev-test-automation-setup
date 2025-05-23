@@ -7,11 +7,8 @@ public class LoggerUtil {
 
     
     private static final Logger logger = LoggerFactory.getLogger(LoggerUtil.class);
-
-    
+   
     private LoggerUtil() {}
-
-    
 
     public static void info(String message) {
         logger.info(message);
