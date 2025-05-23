@@ -8,16 +8,14 @@
         </encoder>
     </appender>
 
-    <!-- File Appender -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_DIR}/default.log</file> <!-- Default log file, will be changed dynamically -->
+        <file>${LOG_DIR}/default.log</file> 
         <append>false</append>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- Root Logger -->
     <root level="debug">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
@@ -27,5 +25,4 @@
     <logger name="org.openqa.selenium" level="WARN"/>
     <logger name="c.c.s" level="WARN"/>
 
-    <!-- Logger specific to your framework classes -->
 </configuration>
